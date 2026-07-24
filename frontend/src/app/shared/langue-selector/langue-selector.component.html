@@ -1,0 +1,10 @@
+﻿<div class="langue-selector">
+  <select
+    [value]="langueService.langueActuelle()"
+    (change)="langueService.changerLangue($any($event.target).value)"
+  >
+    <option *ngFor="let l of langueService.languesDisponibles" [value]="l.code">
+      {{ l.label }}
+    </option>
+  </select>
+</div>

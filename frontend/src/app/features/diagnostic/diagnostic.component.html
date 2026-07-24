@@ -1,0 +1,47 @@
+﻿<div class="diagnostic-page">
+  <div class="diagnostic-card">
+    <app-langue-selector></app-langue-selector>
+    <h2>{{ langueService.t('diagnostic_titre') }}</h2>
+
+    <label>
+      {{ langueService.t('culture_concernee') }}
+      <input type="text" name="culture" [(ngModel)]="culture" [placeholder]="langueService.t('placeholder_culture')" />
+    </label>
+
+    <div class="photo-source">
+      <div class="boutons-photo" *ngIf="!cameraActive">
+        <button type="button" (click)="demarrerCamera()">{{ langueService.t('prendre_photo') }}</button>
+        <label class="btn-fichier">
+          {{ langueService.t('choisir_fichier') }}
+          <input type="file" accept="image/*" (change)="onFileSelected($event)" hidden />
+        </label>
+      </div>
+
+      <p class="erreur" *ngIf="erreurCamera">{{ erreurCamera }}</p>
+
+      <div class="camera-preview" *ngIf="cameraActive">
+        <video #video autoplay playsinline></video>
+        <div class="camera-actions">
+          <button type="button" (click)="capturerPhoto()">{{ langueService.t('prendre_photo') }}</button>
+          <button type="button" class="btn-secondaire" (click)="arreterCamera()">✕</button>
+        </div>
+      </div>
+      <canvas #canvas hidden></canvas>
+
+      <div class="apercu" *ngIf="apercuUrl && !cameraActive">
+        <img [src]="apercuUrl" alt="Aperçu photo" />
+      </div>
+    </div>
+
+    <button (click)="analyser()" [disabled]="chargement || !photoSelectionnee || !culture">
+      {{ chargement ? langueService.t('analyse_en_cours') : langueService.t('analyser_photo') }}
+    </button>
+
+    <div *ngIf="resultat" class="resultat">
+      <h3>{{ langueService.t('resultat') }}</h3>
+      <p><strong>{{ langueService.t('maladie_detectee') }} :</strong> {{ resultat.maladieDetectee }}</p>
+      <p><strong>{{ langueService.t('confiance') }} :</strong> {{ resultat.indiceConfiance * 100 }}%</p>
+      <p><strong>{{ langueService.t('recommandation') }} :</strong> {{ resultat.recommandation }}</p>
+    </div>
+  </div>
+</div>

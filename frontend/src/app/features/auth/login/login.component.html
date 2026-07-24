@@ -1,0 +1,22 @@
+﻿<div class="login-page">
+  <div class="login-card">
+    <app-langue-selector></app-langue-selector>
+    <h1>{{ langueService.t('connexion_titre') }}</h1>
+    <form (ngSubmit)="onSubmit()">
+      <label>
+        {{ langueService.t('telephone') }}
+        <input type="tel" name="telephone" [(ngModel)]="telephone" required />
+      </label>
+      <label>
+        {{ langueService.t('mot_de_passe') }}
+        <input type="password" name="motDePasse" [(ngModel)]="motDePasse" required />
+      </label>
+      <p class="erreur" *ngIf="erreur">{{ erreur }}</p>
+      <button type="submit">{{ langueService.t('se_connecter') }}</button>
+    </form>
+    <p class="lien-secondaire">
+      {{ langueService.t('pas_de_compte') }}
+      <a routerLink="/register">{{ langueService.t('creer_compte') }}</a>
+    </p>
+  </div>
+</div>

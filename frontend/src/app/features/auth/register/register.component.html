@@ -1,0 +1,40 @@
+﻿<div class="login-page">
+  <div class="login-card">
+    <app-langue-selector></app-langue-selector>
+    <h1>{{ langueService.t('inscription_titre') }}</h1>
+    <form (ngSubmit)="onSubmit()">
+      <label>
+        {{ langueService.t('nom_complet') }}
+        <input type="text" name="nomComplet" [(ngModel)]="nomComplet" required />
+      </label>
+      <label>
+        {{ langueService.t('telephone') }}
+        <input type="tel" name="telephone" [(ngModel)]="telephone" required />
+      </label>
+      <label>
+        {{ langueService.t('mot_de_passe') }}
+        <input type="password" name="motDePasse" [(ngModel)]="motDePasse" required />
+      </label>
+      <label>
+        {{ langueService.t('region') }}
+        <input type="text" name="region" [(ngModel)]="region" />
+      </label>
+      <label>
+        {{ langueService.t('langue_preferee') }}
+        <select name="langueChoisie" [(ngModel)]="langueChoisie">
+          <option *ngFor="let l of langueService.languesDisponibles" [value]="l.code">
+            {{ l.label }}
+          </option>
+        </select>
+      </label>
+      <p class="erreur" *ngIf="erreur">{{ erreur }}</p>
+      <button type="submit" [disabled]="chargement">
+        {{ chargement ? '...' : langueService.t('sinscrire') }}
+      </button>
+    </form>
+    <p class="lien-secondaire">
+      {{ langueService.t('deja_compte') }}
+      <a routerLink="/login">{{ langueService.t('se_connecter') }}</a>
+    </p>
+  </div>
+</div>

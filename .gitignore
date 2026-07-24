@@ -1,0 +1,10 @@
+﻿venv/
+cnn-service/venv/
+__pycache__/
+*.pyc
+target/
+backend/target/
+dataset_brut/
+cnn-service/dataset_brut/
+*.pt
+.env

@@ -1,0 +1,33 @@
+﻿server:
+  port: 8080
+spring:
+  application:
+    name: farmerai-backend
+  datasource:
+    url: jdbc:postgresql://localhost:5432/farmerai_db
+    username: ${DB_USERNAME:farmerai_user}
+    password: ${DB_PASSWORD:}
+    driver-class-name: org.postgresql.Driver
+  jpa:
+    hibernate:
+      ddl-auto: update
+    show-sql: true
+    properties:
+      hibernate:
+        format_sql: true
+    database-platform: org.hibernate.dialect.PostgreSQLDialect
+# Paramètres JWT - définis en variable d'environnement en production
+app:
+  jwt:
+    secret: ${JWT_SECRET:CHANGE_ME_DEV_ONLY_SUPER_SECRET_KEY_MIN_256_BITS}
+    expiration-ms: 86400000 # 24h
+  cnn-service:
+    url: ${CNN_SERVICE_URL:http://localhost:8000}
+  anthropic:
+    api-key: ${ANTHROPIC_API_KEY:}
+    model: claude-sonnet-4-6
+  storage:
+    local-path: ./storage/photos
+# CORS - autoriser le frontend en dev et prod
+cors:
+  allowed-origins: ${CORS_ALLOWED_ORIGINS:http://localhost:4200}

@@ -1,0 +1,15 @@
+﻿.langue-selector {
+  display: flex;
+  justify-content: flex-end;
+  margin-bottom: 12px;
+}
+
+.langue-selector select {
+  padding: 6px 10px;
+  border: 1px solid #cfd9cc;
+  border-radius: 8px;
+  background: white;
+  color: #2f5233;
+  font-weight: 600;
+  cursor: pointer;
+}

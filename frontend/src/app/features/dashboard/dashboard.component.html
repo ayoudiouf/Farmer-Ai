@@ -1,0 +1,43 @@
+﻿<div class="dashboard-container">
+  <app-langue-selector></app-langue-selector>
+  <header class="dashboard-header">
+    <h1>{{ langueService.t('tableau_de_bord') }}</h1>
+    <a routerLink="/diagnostic" class="btn-link">{{ langueService.t('nouveau_diagnostic') }}</a>
+  </header>
+
+  <section class="card conseils">
+    <h2>{{ langueService.t('poser_question') }}</h2>
+    <div class="question-row">
+      <input
+        type="text"
+        [(ngModel)]="question"
+        [placeholder]="langueService.t('placeholder_question')"
+        (keyup.enter)="poserQuestion()"
+      />
+      <button (click)="poserQuestion()" [disabled]="chargementConseil || !question.trim()">
+        {{ chargementConseil ? langueService.t('recherche_en_cours') : langueService.t('demander_conseil') }}
+      </button>
+    </div>
+    <div *ngIf="reponseConseil" class="reponse">
+      <p>{{ reponseConseil.reponse }}</p>
+      <p class="sources" *ngIf="reponseConseil.sourcesUtilisees.length">
+        {{ langueService.t('sources') }} : {{ reponseConseil.sourcesUtilisees.join(', ') }}
+      </p>
+    </div>
+  </section>
+
+  <section class="card historique">
+    <h2>{{ langueService.t('historique_titre') }}</h2>
+    <p *ngIf="chargementHistorique">{{ langueService.t('chargement') }}</p>
+    <p class="vide" *ngIf="!chargementHistorique && historique.length === 0">
+      {{ langueService.t('aucun_diagnostic') }}
+    </p>
+    <ul *ngIf="historique.length > 0">
+      <li *ngFor="let d of historique">
+        <strong>{{ d.cultureConcernee }}</strong> — {{ d.maladieDetectee }}
+        <span class="badge">{{ (d.indiceConfiance * 100).toFixed(0) }}% {{ langueService.t('confiance') }}</span>
+        <span class="date">{{ d.dateAnalyse | date:'dd/MM/yyyy' }}</span>
+      </li>
+    </ul>
+  </section>
+</div>
