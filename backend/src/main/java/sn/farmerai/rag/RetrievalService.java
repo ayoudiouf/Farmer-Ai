@@ -7,6 +7,7 @@ import java.util.Comparator;
 import java.util.List;
 import java.util.Locale;
 import java.util.Set;
+import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
 /**
@@ -31,7 +32,7 @@ public class RetrievalService {
         List<String> motsQuestion = extraireMotsCles(question);
 
         return knowledgeBaseService.toutesLesFiches().stream()
-                .map(fiche -> Map2.of(fiche, score(fiche, motsQuestion)))
+                .map(fiche -> Map2.of(fiche, score(fiche, motsQuestion, question)))
                 .filter(entry -> entry.score() > 0)
                 .sorted(Comparator.comparingInt(Map2::score).reversed())
                 .limit(topK)
@@ -39,16 +40,28 @@ public class RetrievalService {
                 .collect(Collectors.toList());
     }
 
-    private int score(FicheAgronomique fiche, List<String> motsQuestion) {
-        String texte = (fiche.culture() + " " + fiche.titre() + " " + fiche.contenu())
-                .toLowerCase(Locale.FRENCH);
+    private int score(FicheAgronomique fiche, List<String> motsQuestion, String questionOriginale) {
+        String texte = (fiche.titre() + " " + fiche.contenu()).toLowerCase(Locale.FRENCH);
+        String culture = fiche.culture().toLowerCase(Locale.FRENCH);
         int score = 0;
+
+        // Gros bonus si la culture de la fiche est explicitement citée dans la question
+        if (contientMotEntier(questionOriginale.toLowerCase(Locale.FRENCH), culture)) {
+            score += 10;
+        }
+
         for (String mot : motsQuestion) {
-            if (texte.contains(mot)) {
+            if (contientMotEntier(texte, mot)) {
                 score++;
             }
         }
         return score;
+    }
+
+    private boolean contientMotEntier(String texte, String mot) {
+        return Pattern.compile("\\b" + Pattern.quote(mot) + "\\b")
+                .matcher(texte)
+                .find();
     }
 
     private List<String> extraireMotsCles(String question) {
