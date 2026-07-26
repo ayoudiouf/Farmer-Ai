@@ -6,6 +6,7 @@ import { DiagnosticService, Diagnostic } from '../../core/services/diagnostic.se
 import { ConseilService, ReponseConseil } from '../../core/services/conseil.service';
 import { LangueService } from '../../core/services/langue.service';
 import { LangueSelectorComponent } from '../../shared/langue-selector/langue-selector.component';
+import { PaymentService } from '../../core/services/payment.service';
 
 @Component({
   selector: 'app-dashboard',
@@ -22,11 +23,15 @@ export class DashboardComponent implements OnInit {
   reponseConseil: ReponseConseil | null = null;
   chargementConseil = false;
 
+  chargementAbonnement = false;
+  erreurAbonnement: string | null = null;
+
   private readonly userId = 1;
 
   constructor(
     private diagnosticService: DiagnosticService,
     private conseilService: ConseilService,
+    private paymentService: PaymentService,
     public langueService: LangueService
   ) {}
 
@@ -49,6 +54,22 @@ export class DashboardComponent implements OnInit {
         this.chargementConseil = false;
       },
       error: () => (this.chargementConseil = false)
+    });
+  }
+
+  souscrireAbonnement(plan: string): void {
+    this.chargementAbonnement = true;
+    this.erreurAbonnement = null;
+
+    this.paymentService.abonner(this.userId.toString(), plan).subscribe({
+      next: (res) => {
+        // Redirige l'utilisateur vers la page de paiement PayDunya
+        window.location.href = res.url;
+      },
+      error: () => {
+        this.chargementAbonnement = false;
+        this.erreurAbonnement = 'Le service de paiement est momentanément indisponible. Réessayez plus tard.';
+      }
     });
   }
 }

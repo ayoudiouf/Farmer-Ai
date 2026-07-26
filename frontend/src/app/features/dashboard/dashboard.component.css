@@ -99,3 +99,54 @@
   font-size: 0.85rem;
   color: #8a988a;
 }
+.abonnement {
+  background: linear-gradient(135deg, #f0fdf4, #ecfdf5);
+  border: 1px solid #bbf7d0;
+}
+
+.abonnement-description {
+  color: #4b5563;
+  margin-bottom: 1rem;
+}
+
+.abonnement-options {
+  display: flex;
+  gap: 1rem;
+  flex-wrap: wrap;
+}
+
+.btn-abonnement {
+  flex: 1;
+  min-width: 160px;
+  padding: 0.75rem 1rem;
+  border: none;
+  border-radius: 8px;
+  background-color: #15803d;
+  color: white;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+.btn-abonnement:hover:not(:disabled) {
+  background-color: #166534;
+}
+
+.btn-abonnement:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.btn-abonnement-annuel {
+  background-color: #b45309;
+}
+
+.btn-abonnement-annuel:hover:not(:disabled) {
+  background-color: #92400e;
+}
+
+.erreur-abonnement {
+  color: #dc2626;
+  margin-top: 0.75rem;
+  font-size: 0.9rem;
+}

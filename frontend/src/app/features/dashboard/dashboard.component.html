@@ -40,4 +40,27 @@
       </li>
     </ul>
   </section>
+    <section class="card abonnement">
+    <h2>🌟 {{ langueService.t('passer_premium') || 'Passer à Premium' }}</h2>
+    <p class="abonnement-description">
+      {{ langueService.t('description_premium') || 'Accédez à des conseils illimités et au diagnostic photo avancé.' }}
+    </p>
+    <div class="abonnement-options">
+      <button
+        class="btn-abonnement"
+        (click)="souscrireAbonnement('mensuel')"
+        [disabled]="chargementAbonnement"
+      >
+        {{ chargementAbonnement ? '...' : 'Mensuel — 1 500 FCFA' }}
+      </button>
+      <button
+        class="btn-abonnement btn-abonnement-annuel"
+        (click)="souscrireAbonnement('annuel')"
+        [disabled]="chargementAbonnement"
+      >
+        {{ chargementAbonnement ? '...' : 'Annuel — 15 000 FCFA' }}
+      </button>
+    </div>
+    <p class="erreur-abonnement" *ngIf="erreurAbonnement">{{ erreurAbonnement }}</p>
+  </section>
 </div>
