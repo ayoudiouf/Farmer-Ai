@@ -28,6 +28,13 @@ app:
     model: claude-sonnet-4-6
   storage:
     local-path: ./storage/photos
+  base-url: ${APP_BASE_URL:http://localhost:4200}
+# PayDunya - clés définies en variable d'environnement en production (jamais en dur ici)
+paydunya:
+  master-key: ${PAYDUNYA_MASTER_KEY:}
+  private-key: ${PAYDUNYA_PRIVATE_KEY:}
+  public-key: ${PAYDUNYA_PUBLIC_KEY:}
+  token: ${PAYDUNYA_TOKEN:}
 # CORS - autoriser le frontend en dev et prod
 cors:
   allowed-origins: ${CORS_ALLOWED_ORIGINS:http://localhost:4200}
