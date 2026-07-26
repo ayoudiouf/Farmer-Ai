@@ -7,6 +7,7 @@ import { ConseilService, ReponseConseil } from '../../core/services/conseil.serv
 import { LangueService } from '../../core/services/langue.service';
 import { LangueSelectorComponent } from '../../shared/langue-selector/langue-selector.component';
 import { PaymentService } from '../../core/services/payment.service';
+import { AuthService } from '../../core/services/auth.service';
 
 @Component({
   selector: 'app-dashboard',
@@ -26,16 +27,29 @@ export class DashboardComponent implements OnInit {
   chargementAbonnement = false;
   erreurAbonnement: string | null = null;
 
+  nomUtilisateur = '';
+  prenomUtilisateur = '';
+  initialesUtilisateur = '';
+
+  meteo = {
+    temperature: 28,
+    condition: 'Ensoleillé',
+    humiditeSol: 45
+  };
+
   private readonly userId = 1;
 
   constructor(
     private diagnosticService: DiagnosticService,
     private conseilService: ConseilService,
     private paymentService: PaymentService,
+    private authService: AuthService,
     public langueService: LangueService
   ) {}
 
   ngOnInit(): void {
+    this.chargerProfilUtilisateur();
+
     this.diagnosticService.historique(this.userId).subscribe({
       next: (data) => {
         this.historique = data;
@@ -43,6 +57,25 @@ export class DashboardComponent implements OnInit {
       },
       error: () => (this.chargementHistorique = false)
     });
+  }
+
+  private chargerProfilUtilisateur(): void {
+    const nomComplet = this.authService.getNomComplet();
+
+    if (nomComplet) {
+      this.nomUtilisateur = nomComplet;
+      this.prenomUtilisateur = nomComplet.split(' ')[0];
+      this.initialesUtilisateur = nomComplet
+        .split(' ')
+        .filter(mot => mot.length > 0)
+        .slice(0, 2)
+        .map(mot => mot[0].toUpperCase())
+        .join('');
+    } else {
+      this.nomUtilisateur = 'Utilisateur';
+      this.prenomUtilisateur = '';
+      this.initialesUtilisateur = '?';
+    }
   }
 
   poserQuestion(): void {
@@ -63,7 +96,6 @@ export class DashboardComponent implements OnInit {
 
     this.paymentService.abonner(this.userId.toString(), plan).subscribe({
       next: (res) => {
-        // Redirige l'utilisateur vers la page de paiement PayDunya
         window.location.href = res.url;
       },
       error: () => {

@@ -29,7 +29,8 @@ public class PaymentService {
     @Value("${app.base-url}")
     private String baseUrl;
 
-    private static final String PAYDUNYA_URL = "https://app.paydunya.com/api/v1/checkout-invoice/create";
+    private static final String URL_SANDBOX = "https://app.paydunya.com/sandbox-api/v1/checkout-invoice/create";
+    private static final String URL_LIVE = "https://app.paydunya.com/api/v1/checkout-invoice/create";
 
     public record LienPaiement(String url, String tokenFacture) {}
 
@@ -59,8 +60,11 @@ public class PaymentService {
 
         HttpEntity<Map<String, Object>> requestEntity = new HttpEntity<>(body, headers);
 
+        // Detection automatique du mode selon le prefixe de la cle privee
+        String urlAppel = privateKey.startsWith("test_") ? URL_SANDBOX : URL_LIVE;
+
         @SuppressWarnings("unchecked")
-        Map<String, Object> response = restTemplate.postForObject(PAYDUNYA_URL, requestEntity, Map.class);
+        Map<String, Object> response = restTemplate.postForObject(urlAppel, requestEntity, Map.class);
 
         String checkoutUrl = (String) response.get("response_text");
         String invoiceToken = (String) response.get("token");
