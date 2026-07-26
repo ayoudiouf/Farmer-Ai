@@ -1,152 +1,353 @@
 ﻿.dashboard-container {
-  max-width: 800px;
-  margin: 0 auto;
-  padding: 32px 20px;
+  min-height: 100vh;
+  background-color: #eef4ea;
 }
 
-.dashboard-header {
+.app-header {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  margin-bottom: 24px;
-  flex-wrap: wrap;
-  gap: 12px;
+  padding: 1rem 2rem;
+  background: #fdfcf8;
+  border-bottom: 1px solid #e5e7eb;
 }
 
-.btn-link {
-  background-color: #4a7c4e;
-  color: white !important;
-  padding: 10px 16px;
-  border-radius: 8px;
+.icon-btn {
+  background: none;
+  border: none;
+  color: #166534;
+  cursor: pointer;
+  padding: 0.25rem;
 }
 
-.btn-link:hover {
-  background-color: #3d6740;
-  text-decoration: none !important;
+.brand {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.brand-logo {
+  height: 32px;
+  width: auto;
+}
+
+.brand-name {
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: #166534;
+}
+
+.header-right {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.user-name {
+  font-weight: 500;
+  color: #1f2937;
+}
+
+.avatar {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  background: #166534;
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.85rem;
+  font-weight: 600;
+}
+
+.dashboard-content {
+  max-width: 900px;
+  margin: 0 auto;
+  padding: 2rem 1.5rem 3rem;
+}
+
+.greeting h1 {
+  font-size: 2rem;
+  color: #14532d;
+  margin-bottom: 0.25rem;
+}
+
+.greeting p {
+  color: #4b5563;
+  margin-bottom: 1.5rem;
 }
 
 .card {
   background: white;
-  border-radius: 14px;
-  padding: 24px;
-  box-shadow: 0 4px 16px rgba(74, 124, 78, 0.1);
-  margin-bottom: 20px;
+  border-radius: 16px;
+  padding: 1.5rem;
+  margin-bottom: 1.5rem;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.06);
 }
 
-.card h2 {
-  font-size: 1.1rem;
-  margin-bottom: 16px;
-}
-
-.question-row {
-  display: flex;
-  gap: 10px;
-  flex-wrap: wrap;
-}
-
-.question-row input {
-  flex: 1;
-  min-width: 200px;
-}
-
-.reponse {
-  margin-top: 16px;
-  padding: 14px;
-  background: #f4f9f2;
-  border-radius: 8px;
-  border-left: 4px solid #4a7c4e;
-}
-
-.sources {
-  font-size: 0.8rem;
-  color: #6b7d68;
-  margin-top: 8px;
-}
-
-.vide {
-  color: #8a988a;
-  font-style: italic;
-}
-
-.historique ul {
-  list-style: none;
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
-}
-
-.historique li {
-  padding: 12px;
-  border-radius: 8px;
-  background: #f9fbf8;
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  flex-wrap: wrap;
-}
-
-.badge {
-  background: #e3efe0;
-  color: #2f5233;
-  padding: 2px 10px;
-  border-radius: 12px;
-  font-size: 0.8rem;
-  font-weight: 600;
-}
-
-.date {
-  margin-left: auto;
-  font-size: 0.85rem;
-  color: #8a988a;
-}
-.abonnement {
-  background: linear-gradient(135deg, #f0fdf4, #ecfdf5);
-  border: 1px solid #bbf7d0;
-}
-
-.abonnement-description {
-  color: #4b5563;
+.conseils h2 {
   margin-bottom: 1rem;
+  font-size: 1.1rem;
 }
 
-.abonnement-options {
-  display: flex;
-  gap: 1rem;
-  flex-wrap: wrap;
-}
-
-.btn-abonnement {
-  flex: 1;
-  min-width: 160px;
+.conseils textarea {
+  width: 100%;
+  border: 1px solid #d1d5db;
+  border-radius: 10px;
   padding: 0.75rem 1rem;
-  border: none;
-  border-radius: 8px;
-  background-color: #15803d;
+  font-family: inherit;
+  font-size: 0.95rem;
+  resize: vertical;
+  margin-bottom: 1rem;
+  box-sizing: border-box;
+}
+
+.btn-primary {
+  width: 100%;
+  background-color: #166534;
   color: white;
+  border: none;
+  border-radius: 10px;
+  padding: 0.85rem;
   font-weight: 600;
   cursor: pointer;
-  transition: background-color 0.2s;
 }
 
-.btn-abonnement:hover:not(:disabled) {
-  background-color: #166534;
-}
-
-.btn-abonnement:disabled {
+.btn-primary:disabled {
   opacity: 0.6;
   cursor: not-allowed;
 }
 
-.btn-abonnement-annuel {
-  background-color: #b45309;
+.reponse {
+  margin-top: 1rem;
+  padding-top: 1rem;
+  border-top: 1px solid #e5e7eb;
 }
 
-.btn-abonnement-annuel:hover:not(:disabled) {
-  background-color: #92400e;
+.reponse .sources {
+  font-size: 0.8rem;
+  color: #6b7280;
+  margin-top: 0.5rem;
+}
+
+.row-two-cols {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1.5rem;
+  margin-bottom: 1.5rem;
+}
+
+.card-dark {
+  background: linear-gradient(135deg, #14532d, #166534);
+  color: white;
+}
+
+.diagnostic-cta {
+  text-decoration: none;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  gap: 0.5rem;
+}
+
+.icon-circle {
+  width: 56px;
+  height: 56px;
+  border-radius: 50%;
+  background: rgba(255,255,255,0.15);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.5rem;
+}
+
+.diagnostic-cta h3 {
+  font-size: 1.1rem;
+  margin: 0;
+}
+
+.diagnostic-cta p {
+  font-size: 0.85rem;
+  opacity: 0.85;
+  margin: 0;
+}
+
+.weather-card {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.weather-label {
+  color: #6b7280;
+  font-size: 0.85rem;
+  margin-bottom: 0.25rem;
+}
+
+.weather-temp {
+  font-size: 1.4rem;
+  font-weight: 700;
+  margin-bottom: 0.25rem;
+}
+
+.weather-sub {
+  color: #b45309;
+  font-size: 0.85rem;
+}
+
+.historique-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1rem;
+}
+
+.voir-tout {
+  color: #166534;
+  font-size: 0.9rem;
+  text-decoration: none;
+}
+
+.historique-item {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.thumb {
+  width: 48px;
+  height: 48px;
+  border-radius: 10px;
+  background: #ecfdf5;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.4rem;
+  flex-shrink: 0;
+}
+
+.historique-info {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+.historique-info .meta {
+  font-size: 0.8rem;
+  color: #6b7280;
+}
+
+.badge {
+  background: #ecfdf5;
+  color: #166534;
+  padding: 0.25rem 0.6rem;
+  border-radius: 999px;
+  font-size: 0.8rem;
+  font-weight: 600;
+}
+
+.chevron {
+  color: #9ca3af;
+  font-size: 1.2rem;
+}
+
+.empty-state {
+  text-align: center;
+  border: 2px dashed #d1d5db;
+  box-shadow: none;
+  color: #6b7280;
+}
+
+.premium h2 {
+  color: #86efac;
+  font-size: 1.5rem;
+}
+
+.premium > p {
+  opacity: 0.85;
+  margin-bottom: 1.5rem;
+}
+
+.plans {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1rem;
+}
+
+.plan {
+  background: rgba(255,255,255,0.08);
+  border-radius: 12px;
+  padding: 1.25rem;
+  position: relative;
+}
+
+.plan-annuel {
+  background: #b45309;
+}
+
+.plan-label {
+  font-size: 0.8rem;
+  font-weight: 700;
+  letter-spacing: 0.05em;
+  opacity: 0.85;
+  margin-bottom: 0.5rem;
+}
+
+.plan-prix {
+  font-size: 1.3rem;
+  font-weight: 700;
+  margin-bottom: 1rem;
+}
+
+.plan-prix span {
+  font-size: 0.85rem;
+  font-weight: 400;
+  opacity: 0.8;
+}
+
+.btn-outline, .btn-fill {
+  width: 100%;
+  border-radius: 8px;
+  padding: 0.7rem;
+  font-weight: 600;
+  cursor: pointer;
+  border: none;
+}
+
+.btn-outline {
+  background: transparent;
+  border: 1.5px solid white;
+  color: white;
+}
+
+.btn-fill {
+  background: white;
+  color: #b45309;
+}
+
+.badge-economie {
+  position: absolute;
+  top: -10px;
+  right: 1rem;
+  background: #fef3c7;
+  color: #92400e;
+  font-size: 0.7rem;
+  font-weight: 700;
+  padding: 0.2rem 0.6rem;
+  border-radius: 999px;
 }
 
 .erreur-abonnement {
-  color: #dc2626;
-  margin-top: 0.75rem;
-  font-size: 0.9rem;
+  color: #fca5a5;
+  margin-top: 1rem;
+  text-align: center;
+}
+
+@media (max-width: 640px) {
+  .row-two-cols, .plans {
+    grid-template-columns: 1fr;
+  }
 }

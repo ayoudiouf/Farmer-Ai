@@ -55,3 +55,9 @@
   font-size: 0.85rem;
   color: #6b7d68;
 }
+.login-logo {
+  display: block;
+  width: 80px;
+  height: auto;
+  margin: 0 auto 16px;
+}

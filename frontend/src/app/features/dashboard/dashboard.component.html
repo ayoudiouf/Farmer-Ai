@@ -1,66 +1,114 @@
 ﻿<div class="dashboard-container">
-  <app-langue-selector></app-langue-selector>
-  <header class="dashboard-header">
-    <h1>{{ langueService.t('tableau_de_bord') }}</h1>
-    <a routerLink="/diagnostic" class="btn-link">{{ langueService.t('nouveau_diagnostic') }}</a>
+  <header class="app-header">
+    <button class="icon-btn" aria-label="Menu">
+      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <line x1="3" y1="6" x2="21" y2="6"/>
+        <line x1="3" y1="12" x2="21" y2="12"/>
+        <line x1="3" y1="18" x2="21" y2="18"/>
+      </svg>
+    </button>
+
+    <div class="brand">
+      <img src="/image/logo-farmerai.png" alt="FarmerAI" class="brand-logo" />
+      <span class="brand-name">FarmerAI</span>
+    </div>
+
+    <div class="header-right">
+      <app-langue-selector></app-langue-selector>
+      <span class="user-name">{{ nomUtilisateur }}</span>
+      <div class="avatar">{{ initialesUtilisateur }}</div>
+    </div>
   </header>
 
-  <section class="card conseils">
-    <h2>{{ langueService.t('poser_question') }}</h2>
-    <div class="question-row">
-      <input
-        type="text"
+  <main class="dashboard-content">
+    <div class="greeting">
+      <h1>Bonjour, {{ prenomUtilisateur }}</h1>
+      <p>Prêt à optimiser vos récoltes aujourd'hui ?</p>
+    </div>
+
+    <section class="card conseils">
+      <h2>🧠 {{ langueService.t('poser_question') }}</h2>
+      <textarea
         [(ngModel)]="question"
         [placeholder]="langueService.t('placeholder_question')"
         (keyup.enter)="poserQuestion()"
-      />
-      <button (click)="poserQuestion()" [disabled]="chargementConseil || !question.trim()">
-        {{ chargementConseil ? langueService.t('recherche_en_cours') : langueService.t('demander_conseil') }}
+        rows="3"
+      ></textarea>
+      <button class="btn-primary" (click)="poserQuestion()" [disabled]="chargementConseil || !question.trim()">
+        <span *ngIf="!chargementConseil">➤ {{ langueService.t('demander_conseil') }}</span>
+        <span *ngIf="chargementConseil">{{ langueService.t('recherche_en_cours') }}</span>
       </button>
-    </div>
-    <div *ngIf="reponseConseil" class="reponse">
-      <p>{{ reponseConseil.reponse }}</p>
-      <p class="sources" *ngIf="reponseConseil.sourcesUtilisees.length">
-        {{ langueService.t('sources') }} : {{ reponseConseil.sourcesUtilisees.join(', ') }}
-      </p>
-    </div>
-  </section>
 
-  <section class="card historique">
-    <h2>{{ langueService.t('historique_titre') }}</h2>
-    <p *ngIf="chargementHistorique">{{ langueService.t('chargement') }}</p>
-    <p class="vide" *ngIf="!chargementHistorique && historique.length === 0">
-      {{ langueService.t('aucun_diagnostic') }}
-    </p>
-    <ul *ngIf="historique.length > 0">
-      <li *ngFor="let d of historique">
-        <strong>{{ d.cultureConcernee }}</strong> — {{ d.maladieDetectee }}
-        <span class="badge">{{ (d.indiceConfiance * 100).toFixed(0) }}% {{ langueService.t('confiance') }}</span>
-        <span class="date">{{ d.dateAnalyse | date:'dd/MM/yyyy' }}</span>
-      </li>
-    </ul>
-  </section>
-    <section class="card abonnement">
-    <h2>🌟 {{ langueService.t('passer_premium') || 'Passer à Premium' }}</h2>
-    <p class="abonnement-description">
-      {{ langueService.t('description_premium') || 'Accédez à des conseils illimités et au diagnostic photo avancé.' }}
-    </p>
-    <div class="abonnement-options">
-      <button
-        class="btn-abonnement"
-        (click)="souscrireAbonnement('mensuel')"
-        [disabled]="chargementAbonnement"
-      >
-        {{ chargementAbonnement ? '...' : 'Mensuel — 1 500 FCFA' }}
-      </button>
-      <button
-        class="btn-abonnement btn-abonnement-annuel"
-        (click)="souscrireAbonnement('annuel')"
-        [disabled]="chargementAbonnement"
-      >
-        {{ chargementAbonnement ? '...' : 'Annuel — 15 000 FCFA' }}
-      </button>
+      <div *ngIf="reponseConseil" class="reponse">
+        <p>{{ reponseConseil.reponse }}</p>
+        <p class="sources" *ngIf="reponseConseil.sourcesUtilisees.length">
+          {{ langueService.t('sources') }} : {{ reponseConseil.sourcesUtilisees.join(', ') }}
+        </p>
+      </div>
+    </section>
+
+    <div class="row-two-cols">
+      <a routerLink="/diagnostic" class="card card-dark diagnostic-cta">
+        <div class="icon-circle">📷</div>
+        <h3>{{ langueService.t('nouveau_diagnostic') }}</h3>
+        <p>Identifiez les maladies en un clin d'œil</p>
+      </a>
+
+      <div class="card weather-card">
+        <p class="weather-label">Météo à votre ferme</p>
+        <p class="weather-temp">{{ meteo.temperature }}°C • {{ meteo.condition }}</p>
+        <p class="weather-sub">💧 Humidité du sol : {{ meteo.humiditeSol }}%</p>
+      </div>
     </div>
-    <p class="erreur-abonnement" *ngIf="erreurAbonnement">{{ erreurAbonnement }}</p>
-  </section>
+
+    <section class="historique-section">
+      <div class="historique-header">
+        <h2>{{ langueService.t('historique_titre') }}</h2>
+        <a routerLink="/historique" class="voir-tout">Voir tout</a>
+      </div>
+
+      <p *ngIf="chargementHistorique">{{ langueService.t('chargement') }}</p>
+
+      <div *ngFor="let d of historique" class="card historique-item">
+        <div class="thumb">🌿</div>
+        <div class="historique-info">
+          <strong>{{ d.maladieDetectee }} ({{ d.cultureConcernee }})</strong>
+          <span class="meta">{{ d.dateAnalyse | date:'dd/MM/yyyy' }}</span>
+        </div>
+        <span class="badge">{{ (d.indiceConfiance * 100).toFixed(0) }}%</span>
+        <span class="chevron">›</span>
+      </div>
+
+      <div *ngIf="!chargementHistorique && historique.length === 0" class="card empty-state">
+        <p>📋</p>
+        <p>{{ langueService.t('aucun_diagnostic') }}</p>
+      </div>
+    </section>
+
+    <section class="card card-dark premium">
+      <h2>Passer au Premium</h2>
+      <p>Accédez à des diagnostics illimités, des alertes météo avancées et des conseils d'experts 24/7.</p>
+
+      <div class="plans">
+        <div class="plan plan-mensuel">
+          <p class="plan-label">MENSUEL</p>
+          <p class="plan-prix">1 500 FCFA <span>/ mois</span></p>
+          <button class="btn-outline" (click)="souscrireAbonnement('mensuel')" [disabled]="chargementAbonnement">
+            {{ chargementAbonnement ? '...' : 'Choisir ce plan' }}
+          </button>
+        </div>
+
+        <div class="plan plan-annuel">
+          <span class="badge-economie">ÉCONOMISEZ 15%</span>
+          <p class="plan-label">ANNUEL</p>
+          <p class="plan-prix">15 000 FCFA <span>/ an</span></p>
+          <button class="btn-fill" (click)="souscrireAbonnement('annuel')" [disabled]="chargementAbonnement">
+            {{ chargementAbonnement ? '...' : 'Passer au Premium' }}
+          </button>
+        </div>
+      </div>
+
+      <p class="erreur-abonnement" *ngIf="erreurAbonnement">{{ erreurAbonnement }}</p>
+    </section>
+  </main>
 </div>
