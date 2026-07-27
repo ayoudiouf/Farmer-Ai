@@ -37,6 +37,11 @@
       {{ chargement ? langueService.t('analyse_en_cours') : langueService.t('analyser_photo') }}
     </button>
 
+    <p class="aide-bouton" *ngIf="!chargement && (!photoSelectionnee || !culture)">
+  <span *ngIf="!culture">⚠️ Indiquez la culture concernée.</span>
+  <span *ngIf="culture && !photoSelectionnee">⚠️ Ajoutez une photo pour continuer.</span>
+</p>
+
     <div *ngIf="resultat" class="resultat">
       <h3>{{ langueService.t('resultat') }}</h3>
       <p><strong>{{ langueService.t('maladie_detectee') }} :</strong> {{ resultat.maladieDetectee }}</p>
