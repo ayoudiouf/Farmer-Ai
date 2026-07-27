@@ -19,6 +19,7 @@ public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+    private String photoUrl;
 
     @Column(nullable = false, unique = true)
     private String telephone; // numéro utilisé pour WhatsApp/USSD

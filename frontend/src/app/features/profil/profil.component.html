@@ -1,0 +1,98 @@
+<div class="profil-container">
+  <header class="app-header">
+    <button class="icon-btn" (click)="retour()" aria-label="Retour">←</button>
+    <div class="brand">
+      <img src="/image/logo-farmerai.png" alt="FarmerAI" class="brand-logo" />
+      <span class="brand-name">FarmerAI</span>
+    </div>
+    <div></div>
+  </header>
+
+  <main class="profil-content">
+    <h1>Mon profil</h1>
+
+    <p *ngIf="chargement">Chargement...</p>
+
+    <ng-container *ngIf="!chargement && profil">
+      <section class="card photo-section">
+        <div class="avatar-large" [class.has-image]="urlPhotoComplete">
+          <img *ngIf="urlPhotoComplete" [src]="urlPhotoComplete" alt="Photo de profil" />
+          <span *ngIf="!urlPhotoComplete">{{ initiales }}</span>
+        </div>
+        <label class="btn-outline-vert">
+          Changer la photo
+          <input type="file" accept="image/*" (change)="onPhotoSelectionnee($event)" hidden />
+        </label>
+        <button
+          *ngIf="photoSelectionnee"
+          class="btn-primary"
+          (click)="uploaderPhoto()"
+          [disabled]="chargementPhoto"
+        >
+          {{ chargementPhoto ? 'Envoi...' : 'Enregistrer la photo' }}
+        </button>
+      </section>
+
+      <section class="card">
+        <h2>Informations personnelles</h2>
+
+        <label>
+          Téléphone
+          <input type="text" [value]="profil.telephone" disabled />
+        </label>
+
+        <label>
+          Nom complet
+          <input type="text" [(ngModel)]="nomComplet" name="nomComplet" />
+        </label>
+
+        <label>
+          Région
+          <input type="text" [(ngModel)]="region" name="region" />
+        </label>
+
+        <label>
+          Langue
+          <select [(ngModel)]="langue" name="langue">
+            <option value="FRANCAIS">Français</option>
+            <option value="WOLOF">Wolof</option>
+            <option value="DIOLA">Diola</option>
+            <option value="SERERE">Sérère</option>
+          </select>
+        </label>
+
+        <button class="btn-primary" (click)="enregistrerProfil()" [disabled]="chargementEnregistrement">
+          {{ chargementEnregistrement ? 'Enregistrement...' : 'Enregistrer les modifications' }}
+        </button>
+
+        <p class="succes" *ngIf="messageSucces">{{ messageSucces }}</p>
+        <p class="erreur" *ngIf="messageErreur">{{ messageErreur }}</p>
+      </section>
+
+      <section class="card">
+        <h2>Changer le mot de passe</h2>
+
+        <label>
+          Ancien mot de passe
+          <input type="password" [(ngModel)]="ancienMotDePasse" name="ancienMotDePasse" />
+        </label>
+
+        <label>
+          Nouveau mot de passe
+          <input type="password" [(ngModel)]="nouveauMotDePasse" name="nouveauMotDePasse" />
+        </label>
+
+        <label>
+          Confirmer le nouveau mot de passe
+          <input type="password" [(ngModel)]="confirmationMotDePasse" name="confirmationMotDePasse" />
+        </label>
+
+        <button class="btn-primary" (click)="changerMotDePasse()" [disabled]="chargementMotDePasse">
+          {{ chargementMotDePasse ? 'Changement...' : 'Changer le mot de passe' }}
+        </button>
+
+        <p class="erreur" *ngIf="messageErreurMotDePasse">{{ messageErreurMotDePasse }}</p>
+      </section>
+    </ng-container>
+  </main>
+</div>

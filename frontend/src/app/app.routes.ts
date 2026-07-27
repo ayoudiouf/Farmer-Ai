@@ -24,6 +24,12 @@ export const routes: Routes = [
     canActivate: [authGuard],
     loadComponent: () =>
       import('./features/diagnostic/diagnostic.component').then((m) => m.DiagnosticComponent)
+  },
+  {
+    path: 'profil',
+    canActivate: [authGuard],
+    loadComponent: () =>
+      import('./features/profil/profil.component').then((m) => m.ProfilComponent)
   }
   // TODO: ajouter /conseils dédié, /meteo au fur et à mesure
 ];
