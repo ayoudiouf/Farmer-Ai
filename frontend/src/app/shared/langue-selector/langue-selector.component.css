@@ -23,3 +23,15 @@
     max-width: 90px;
   }
 }
+
+@media (max-width: 480px) {
+  .langue-selector {
+    margin-bottom: 0;
+  }
+
+  .langue-selector select {
+    font-size: 0.7rem;
+    padding: 3px 5px;
+    max-width: 75px;
+  }
+}

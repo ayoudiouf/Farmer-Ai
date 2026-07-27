@@ -151,3 +151,32 @@ input:disabled {
   margin-top: 0.75rem;
   font-size: 0.9rem;
 }
+
+@media (max-width: 480px) {
+  .app-header {
+    padding: 0.75rem 1rem;
+    column-gap: 0.5rem;
+  }
+
+  .brand-name {
+    display: none; /* on garde juste le logo, le nom prend trop de place */
+  }
+
+  .brand-logo {
+    height: 28px;
+  }
+
+  .header-right {
+    gap: 0.4rem;
+  }
+
+  .user-name {
+    display: none; /* le nom est déjà visible dans le profil, pas besoin ici */
+  }
+
+  .avatar {
+    width: 30px;
+    height: 30px;
+    font-size: 0.7rem;
+  }
+}
