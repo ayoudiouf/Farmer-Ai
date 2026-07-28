@@ -90,18 +90,26 @@ export class DashboardComponent implements OnInit {
     });
   }
 
-  souscrireAbonnement(plan: string): void {
-    this.chargementAbonnement = true;
-    this.erreurAbonnement = null;
+ paiementActif = false;
+  // ⚠️ passer à true une fois Stripe / PayDunya / etc. réellement intégré
 
-    this.paymentService.abonner(this.userId.toString(), plan).subscribe({
-      next: (res) => {
-        window.location.href = res.url;
-      },
-      error: () => {
-        this.chargementAbonnement = false;
-        this.erreurAbonnement = 'Le service de paiement est momentanément indisponible. Réessayez plus tard.';
-      }
-    });
+souscrireAbonnement(plan: string): void {
+  this.erreurAbonnement = null;
+
+  if (!this.paiementActif) {
+    this.erreurAbonnement = "🚧 Le paiement en ligne est en cours d'intégration. Cette fonctionnalité sera bientôt disponible. Merci de votre patience !";
+    return;
   }
+
+  this.chargementAbonnement = true;
+  this.paymentService.abonner(this.userId.toString(), plan).subscribe({
+    next: (res) => {
+      window.location.href = res.url;
+    },
+    error: () => {
+      this.chargementAbonnement = false;
+      this.erreurAbonnement = 'Le service de paiement est momentanément indisponible. Réessayez plus tard.';
+    }
+  });
+}
 }

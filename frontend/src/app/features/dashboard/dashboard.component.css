@@ -35,6 +35,12 @@
   gap: 0.75rem;
 }
 
+.header-right app-langue-selector {
+  display: flex;
+  align-items: center;
+  height: 36px; /* même hauteur que .avatar pour un alignement parfait */
+}
+
 .icon-btn {
   background: none;
   border: none;
@@ -61,11 +67,10 @@
   color: #166534;
 }
 
-.header-right {
-  justify-self: end;
-  display: flex;
-  align-items: center;
-  gap: 0.75rem;
+.erreur-abonnement {
+  color: #fde68a; /* jaune doux au lieu de rouge, pour signaler "en cours" et pas "échec" */
+  margin-top: 1rem;
+  text-align: center;
 }
 
 .user-name {
@@ -397,9 +402,6 @@
     height: 28px;
   }
 
-  .header-right {
-    gap: 0.4rem;
-  }
 
   .user-name {
     display: none; /* le nom est déjà visible dans le profil, pas besoin ici */
