@@ -35,87 +35,111 @@ public class ClaudeVisionDiagnosticService {
     private static final String ANTHROPIC_URL = "https://api.anthropic.com/v1/messages";
 
     public CnnResult diagnostiquer(MultipartFile photo, String culture) {
-        try {
-            String imageBase64 = Base64.getEncoder().encodeToString(photo.getBytes());
-            String mediaType = photo.getContentType() != null ? photo.getContentType() : "image/jpeg";
+    try {
+        String imageBase64 = Base64.getEncoder().encodeToString(photo.getBytes());
+        String mediaType = photo.getContentType() != null ? photo.getContentType() : "image/jpeg";
 
-            String promptDiagnostic = """
-                    Analyse cette photo de plante cultivée en Afrique de l'Ouest (Sénégal).
-                    Culture indiquée par l'agriculteur : %s (peut être imprécise ou absente).
+        String promptDiagnostic = """
+                Analyse cette photo. Vérifie d'abord si elle montre bien une plante cultivée,
+                une feuille, une culture ou un végétal.
 
-                    Réponds UNIQUEMENT en JSON valide, sans texte avant ni après, avec cette
-                    structure exacte :
-                    {
-                      "culture_identifiee": "nom de la culture ou 'incertain'",
-                      "diagnostic": "nom de la maladie, carence ou ravageur identifié, ou 'sain' si aucun problème visible",
-                      "confiance": "haute" | "moyenne" | "faible",
-                      "symptomes_observes": "description courte des symptômes visibles"
-                    }
+                Si ce n'est PAS le cas (par exemple : une personne, un animal, un objet,
+                un paysage sans végétation, une photo floue/illisible, ou tout autre sujet
+                qui n'est pas une plante), réponds UNIQUEMENT en JSON avec :
+                {
+                  "est_une_plante": false
+                }
 
-                    Si tu n'es pas sûr, indique une confiance faible plutôt que d'inventer un diagnostic.
-                    """.formatted(culture == null || culture.isBlank() ? "non précisée" : culture);
+                Si l'image montre bien une plante, analyse-la comme une culture en Afrique
+                de l'Ouest (Sénégal). Culture indiquée par l'agriculteur : %s (peut être
+                imprécise ou absente).
 
-            Map<String, Object> body = Map.of(
-                    "model", anthropicModel,
-                    "max_tokens", 500,
-                    "messages", List.of(Map.of(
-                            "role", "user",
-                            "content", List.of(
-                                    Map.of(
-                                            "type", "image",
-                                            "source", Map.of(
-                                                    "type", "base64",
-                                                    "media_type", mediaType,
-                                                    "data", imageBase64
-                                            )
-                                    ),
-                                    Map.of("type", "text", "text", promptDiagnostic)
-                            )
-                    ))
-            );
+                Réponds alors UNIQUEMENT en JSON valide, sans texte avant ni après, avec
+                cette structure exacte :
+                {
+                  "est_une_plante": true,
+                  "culture_identifiee": "nom de la culture ou 'incertain'",
+                  "diagnostic": "nom de la maladie, carence ou ravageur identifié, ou 'sain' si aucun problème visible",
+                  "confiance": "haute" | "moyenne" | "faible",
+                  "symptomes_observes": "description courte des symptômes visibles"
+                }
 
-            HttpHeaders headers = new HttpHeaders();
-            headers.set("x-api-key", anthropicApiKey);
-            headers.set("anthropic-version", "2023-06-01");
-            headers.setContentType(MediaType.APPLICATION_JSON);
+                Si tu n'es pas sûr, indique une confiance faible plutôt que d'inventer un diagnostic.
+                """.formatted(culture == null || culture.isBlank() ? "non précisée" : culture);
 
-            HttpEntity<Map<String, Object>> requestEntity = new HttpEntity<>(body, headers);
+        Map<String, Object> body = Map.of(
+                "model", anthropicModel,
+                "max_tokens", 500,
+                "messages", List.of(Map.of(
+                        "role", "user",
+                        "content", List.of(
+                                Map.of(
+                                        "type", "image",
+                                        "source", Map.of(
+                                                "type", "base64",
+                                                "media_type", mediaType,
+                                                "data", imageBase64
+                                        )
+                                ),
+                                Map.of("type", "text", "text", promptDiagnostic)
+                        )
+                ))
+        );
 
-            @SuppressWarnings("unchecked")
-            Map<String, Object> response = restTemplate.postForObject(ANTHROPIC_URL, requestEntity, Map.class);
+        HttpHeaders headers = new HttpHeaders();
+        headers.set("x-api-key", anthropicApiKey);
+        headers.set("anthropic-version", "2023-06-01");
+        headers.setContentType(MediaType.APPLICATION_JSON);
 
-            String texteJson = extraireTexte(response);
-            JsonNode diagnosticNode = objectMapper.readTree(texteJson);
+        HttpEntity<Map<String, Object>> requestEntity = new HttpEntity<>(body, headers);
 
-            String cultureIdentifiee = diagnosticNode.path("culture_identifiee").asText("incertain");
-            String diagnostic = diagnosticNode.path("diagnostic").asText("indetermine");
-            String confiance = diagnosticNode.path("confiance").asText("faible");
+        @SuppressWarnings("unchecked")
+        Map<String, Object> response = restTemplate.postForObject(ANTHROPIC_URL, requestEntity, Map.class);
 
-            double indiceConfiance = switch (confiance) {
-                case "haute" -> 0.9;
-                case "moyenne" -> 0.6;
-                default -> 0.3;
-            };
+        String texteJson = extraireTexte(response);
+        JsonNode diagnosticNode = objectMapper.readTree(texteJson);
 
-            String recommandation;
-            if ("sain".equalsIgnoreCase(diagnostic)) {
-                recommandation = "Aucune maladie détectée. Continuez la surveillance régulière de vos plants.";
-            } else {
-                String question = "Comment traiter " + diagnostic + " sur " + cultureIdentifiee + " ?";
-                RagConseilService.ReponseConseil conseil = ragConseilService.repondre(question, "français");
-                recommandation = conseil.reponse();
-            }
+        boolean estUnePlante = diagnosticNode.path("est_une_plante").asBoolean(true);
 
-            return new CnnResult(diagnostic, indiceConfiance, recommandation);
-
-        } catch (IOException | RuntimeException e) {
+        if (!estUnePlante) {
             return new CnnResult(
-                    "service_indisponible",
+                    false,
+                    "photo_invalide",
                     0.0,
-                    "Le service de diagnostic est momentanément indisponible. Réessayez dans quelques minutes."
+                    "Cette image ne semble pas être une plante. Veuillez reprendre une photo nette d'une plante ou d'une feuille."
             );
         }
+
+        String cultureIdentifiee = diagnosticNode.path("culture_identifiee").asText("incertain");
+        String diagnostic = diagnosticNode.path("diagnostic").asText("indetermine");
+        String confiance = diagnosticNode.path("confiance").asText("faible");
+
+        double indiceConfiance = switch (confiance) {
+            case "haute" -> 0.9;
+            case "moyenne" -> 0.6;
+            default -> 0.3;
+        };
+
+        String recommandation;
+        if ("sain".equalsIgnoreCase(diagnostic)) {
+            recommandation = "Aucune maladie détectée. Continuez la surveillance régulière de vos plants.";
+        } else {
+            String question = "Comment traiter " + diagnostic + " sur " + cultureIdentifiee + " ?";
+            RagConseilService.ReponseConseil conseil = ragConseilService.repondre(question, "français");
+            recommandation = conseil.reponse();
+        }
+
+        return new CnnResult(true, diagnostic, indiceConfiance, recommandation);
+
+    } catch (IOException | RuntimeException e) {
+        return new CnnResult(
+                true,
+                "service_indisponible",
+                0.0,
+                "Le service de diagnostic est momentanément indisponible. Réessayez dans quelques minutes."
+        );
     }
+}
 
     @SuppressWarnings("unchecked")
     private String extraireTexte(Map<String, Object> response) {

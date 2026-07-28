@@ -84,18 +84,29 @@ export class DiagnosticComponent {
     this.cameraActive = false;
   }
 
-  analyser(): void {
-    if (!this.photoSelectionnee || !this.culture) return;
-    this.chargement = true;
-    // TODO: remplacer 1 par l'ID de l'utilisateur connecté (à récupérer du token/profil)
-    this.diagnosticService.analyserPhoto(this.photoSelectionnee, this.culture, 1).subscribe({
-      next: (res) => {
-        this.resultat = res;
-        this.chargement = false;
-      },
-      error: () => (this.chargement = false)
-    });
-  }
+ erreurAnalyse: string | null = null;
+
+analyser(): void {
+  if (!this.photoSelectionnee || !this.culture) return;
+  this.chargement = true;
+  this.erreurAnalyse = null;
+  this.resultat = null;
+
+  this.diagnosticService.analyserPhoto(this.photoSelectionnee, this.culture, 1).subscribe({
+    next: (res) => {
+      this.chargement = false;
+      this.resultat = res;
+    },
+    error: (err) => {
+      this.chargement = false;
+      if (err.status === 422 && err.error?.code === 'PHOTO_INVALIDE') {
+        this.erreurAnalyse = err.error.message;
+      } else {
+        this.erreurAnalyse = this.langueService.t('erreur_analyse_generique');
+      }
+    }
+  });
+}
 
   ngOnDestroy(): void {
     this.arreterCamera();

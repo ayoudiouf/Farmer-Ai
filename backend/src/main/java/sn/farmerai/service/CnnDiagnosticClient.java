@@ -24,7 +24,7 @@ public class CnnDiagnosticClient {
     @Value("${app.cnn-service.url}")
     private String cnnServiceUrl;
 
-    public record CnnResult(String maladieDetectee, double indiceConfiance, String recommandation) {}
+    public record CnnResult(boolean estUnePlante, String maladieDetectee, double indiceConfiance, String recommandation) {}
 
     public CnnResult analyser(MultipartFile photo, String culture) {
         try {
@@ -50,6 +50,7 @@ public class CnnDiagnosticClient {
             }
 
             return new CnnResult(
+                    true,
                     (String) response.get("maladie_detectee"),
                     ((Number) response.get("indice_confiance")).doubleValue(),
                     (String) response.get("recommandation")
@@ -63,6 +64,7 @@ public class CnnDiagnosticClient {
 
     private CnnResult fallback() {
         return new CnnResult(
+                true,
                 "service_indisponible",
                 0.0,
                 "Le service de diagnostic est momentanément indisponible. Réessayez dans quelques minutes."

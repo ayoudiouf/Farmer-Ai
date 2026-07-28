@@ -36,6 +36,7 @@
     <button (click)="analyser()" [disabled]="chargement || !photoSelectionnee || !culture">
       {{ chargement ? langueService.t('analyse_en_cours') : langueService.t('analyser_photo') }}
     </button>
+    <p class="erreur" *ngIf="erreurAnalyse">{{ erreurAnalyse }}</p>
 
     <p class="aide-bouton" *ngIf="!chargement && (!photoSelectionnee || !culture)">
   <span *ngIf="!culture">⚠️ Indiquez la culture concernée.</span>

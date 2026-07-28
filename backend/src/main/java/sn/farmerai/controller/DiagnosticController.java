@@ -20,32 +20,44 @@ public class DiagnosticController {
     private final UserRepository userRepository;
     private final ClaudeVisionDiagnosticService claudeVisionDiagnosticService;
     private final PhotoStorageService photoStorageService;
-    @PostMapping(value = "/analyser", consumes = "multipart/form-data")
-    public ResponseEntity<?> analyserPhoto(
-            @RequestParam("photo") MultipartFile photo,
-            @RequestParam("culture") String culture,
-            @RequestParam("userId") Long userId) {
-        User agriculteur = userRepository.findById(userId)
-                .orElseThrow(() -> new IllegalArgumentException("Utilisateur introuvable : " + userId));
-        CnnDiagnosticClient.CnnResult resultat = claudeVisionDiagnosticService.diagnostiquer(photo, culture);
-        String cheminPhoto;
-        try {
-            cheminPhoto = photoStorageService.sauvegarder(photo);
-        } catch (IOException e) {
-            return ResponseEntity.internalServerError().body("Erreur lors de l'enregistrement de la photo.");
-        }
-        Diagnostic diagnostic = Diagnostic.builder()
-                .agriculteur(agriculteur)
-                .cultureConcernee(culture)
-                .urlPhoto(cheminPhoto)
-                .maladieDetectee(resultat.maladieDetectee())
-                .indiceConfiance(resultat.indiceConfiance())
-                .recommandation(resultat.recommandation())
-                .build();
-        return ResponseEntity.ok(diagnosticRepository.save(diagnostic));
+  @PostMapping(value = "/analyser", consumes = "multipart/form-data")
+public ResponseEntity<?> analyserPhoto(
+        @RequestParam("photo") MultipartFile photo,
+        @RequestParam("culture") String culture,
+        @RequestParam("userId") Long userId) {
+
+    User agriculteur = userRepository.findById(userId)
+            .orElseThrow(() -> new IllegalArgumentException("Utilisateur introuvable : " + userId));
+
+    CnnDiagnosticClient.CnnResult resultat = claudeVisionDiagnosticService.diagnostiquer(photo, culture);
+
+    if (!resultat.estUnePlante()) {
+        return ResponseEntity.status(422).body(
+                new ErreurDiagnostic("PHOTO_INVALIDE", resultat.recommandation())
+        );
     }
+
+    String cheminPhoto;
+    try {
+        cheminPhoto = photoStorageService.sauvegarder(photo);
+    } catch (IOException e) {
+        return ResponseEntity.internalServerError().body("Erreur lors de l'enregistrement de la photo.");
+    }
+
+    Diagnostic diagnostic = Diagnostic.builder()
+            .agriculteur(agriculteur)
+            .cultureConcernee(culture)
+            .urlPhoto(cheminPhoto)
+            .maladieDetectee(resultat.maladieDetectee())
+            .indiceConfiance(resultat.indiceConfiance())
+            .recommandation(resultat.recommandation())
+            .build();
+
+    return ResponseEntity.ok(diagnosticRepository.save(diagnostic));
+}
     @GetMapping("/utilisateur/{userId}")
     public List<Diagnostic> historiqueUtilisateur(@PathVariable Long userId) {
         return diagnosticRepository.findByAgriculteur_IdOrderByDateAnalyseDesc(userId);
     }
 }
+record ErreurDiagnostic(String code, String message) {}
