@@ -4,7 +4,7 @@ spring:
   application:
     name: farmerai-backend
   datasource:
-    url: jdbc:postgresql://localhost:5432/farmerai_db
+    url: ${DB_URL:jdbc:postgresql://localhost:5432/farmerai_db}
     username: ${DB_USERNAME:farmerai_user}
     password: ${DB_PASSWORD:}
     driver-class-name: org.postgresql.Driver
