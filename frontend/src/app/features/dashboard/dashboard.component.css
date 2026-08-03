@@ -382,6 +382,22 @@
   margin-top: 1rem;
   text-align: center;
 }
+.actions-conseil {
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+.appel-confirme {
+  color: #2e7d32;
+  font-weight: 500;
+  margin-top: 8px;
+}
+
+.erreur-appel {
+  color: #c62828;
+  margin-top: 8px;
+}
 
 @media (max-width: 640px) {
   .row-two-cols, .plans {

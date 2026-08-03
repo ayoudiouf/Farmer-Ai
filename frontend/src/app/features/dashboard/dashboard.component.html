@@ -34,17 +34,24 @@
         (keyup.enter)="poserQuestion()"
         rows="3"
       ></textarea>
-      <button class="btn-primary" (click)="poserQuestion()" [disabled]="chargementConseil || !question.trim()">
-        <span *ngIf="!chargementConseil">➤ {{ langueService.t('demander_conseil') }}</span>
-        <span *ngIf="chargementConseil">{{ langueService.t('recherche_en_cours') }}</span>
-      </button>
-
+      <div class="actions-conseil">
+        <button class="btn-primary" (click)="poserQuestion()" [disabled]="chargementConseil || !question.trim()">
+          <span *ngIf="!chargementConseil">➤ {{ langueService.t('demander_conseil') }}</span>
+          <span *ngIf="chargementConseil">{{ langueService.t('recherche_en_cours') }}</span>
+        </button>
+        <button class="btn-outline" (click)="appelerConseiller()" [disabled]="chargementAppel">
+          <span *ngIf="!chargementAppel">📞 Appeler un conseiller</span>
+          <span *ngIf="chargementAppel">Appel en cours...</span>
+        </button>
+      </div>
       <div *ngIf="reponseConseil" class="reponse">
         <p>{{ reponseConseil.reponse }}</p>
         <p class="sources" *ngIf="reponseConseil.sourcesUtilisees.length">
           {{ langueService.t('sources') }} : {{ reponseConseil.sourcesUtilisees.join(', ') }}
         </p>
       </div>
+      <p class="appel-confirme" *ngIf="appelConfirme">✅ Un conseiller va vous appeler dans quelques instants.</p>
+      <p class="erreur-appel" *ngIf="erreurAppel">{{ erreurAppel }}</p>
     </section>
 
     <div class="row-two-cols">

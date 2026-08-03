@@ -8,6 +8,7 @@ import { LangueService } from '../../core/services/langue.service';
 import { LangueSelectorComponent } from '../../shared/langue-selector/langue-selector.component';
 import { PaymentService } from '../../core/services/payment.service';
 import { AuthService } from '../../core/services/auth.service';
+import { VoiceService } from '../../core/services/voice.service';
 
 @Component({
   selector: 'app-dashboard',
@@ -27,6 +28,10 @@ export class DashboardComponent implements OnInit {
   chargementAbonnement = false;
   erreurAbonnement: string | null = null;
 
+  chargementAppel = false;
+  erreurAppel: string | null = null;
+  appelConfirme = false;
+
   nomUtilisateur = '';
   prenomUtilisateur = '';
   initialesUtilisateur = '';
@@ -44,6 +49,7 @@ export class DashboardComponent implements OnInit {
     private conseilService: ConseilService,
     private paymentService: PaymentService,
     private authService: AuthService,
+    private voiceService: VoiceService,
     public langueService: LangueService
   ) {}
 
@@ -90,26 +96,49 @@ export class DashboardComponent implements OnInit {
     });
   }
 
- paiementActif = false;
-  // ⚠️ passer à true une fois Stripe / PayDunya / etc. réellement intégré
+  appelerConseiller(): void {
+    this.erreurAppel = null;
+    this.appelConfirme = false;
 
-souscrireAbonnement(plan: string): void {
-  this.erreurAbonnement = null;
+    const numero = this.authService.getTelephone?.();
+    if (!numero) {
+      this.erreurAppel = "Aucun numéro de téléphone associé à votre profil.";
+      return;
+    }
 
-  if (!this.paiementActif) {
-    this.erreurAbonnement = "🚧 Le paiement en ligne est en cours d'intégration. Cette fonctionnalité sera bientôt disponible. Merci de votre patience !";
-    return;
+    this.chargementAppel = true;
+    this.voiceService.appeler(numero).subscribe({
+      next: () => {
+        this.chargementAppel = false;
+        this.appelConfirme = true;
+      },
+      error: () => {
+        this.chargementAppel = false;
+        this.erreurAppel = "Impossible de lancer l'appel pour le moment.";
+      }
+    });
   }
 
-  this.chargementAbonnement = true;
-  this.paymentService.abonner(this.userId.toString(), plan).subscribe({
-    next: (res) => {
-      window.location.href = res.url;
-    },
-    error: () => {
-      this.chargementAbonnement = false;
-      this.erreurAbonnement = 'Le service de paiement est momentanément indisponible. Réessayez plus tard.';
+  paiementActif = false;
+  // ⚠️ passer à true une fois Stripe / PayDunya / etc. réellement intégré
+
+  souscrireAbonnement(plan: string): void {
+    this.erreurAbonnement = null;
+
+    if (!this.paiementActif) {
+      this.erreurAbonnement = "🚧 Le paiement en ligne est en cours d'intégration. Cette fonctionnalité sera bientôt disponible. Merci de votre patience !";
+      return;
     }
-  });
-}
+
+    this.chargementAbonnement = true;
+    this.paymentService.abonner(this.userId.toString(), plan).subscribe({
+      next: (res) => {
+        window.location.href = res.url;
+      },
+      error: () => {
+        this.chargementAbonnement = false;
+        this.erreurAbonnement = 'Le service de paiement est momentanément indisponible. Réessayez plus tard.';
+      }
+    });
+  }
 }
