@@ -39,10 +39,10 @@
           <span *ngIf="!chargementConseil">➤ {{ langueService.t('demander_conseil') }}</span>
           <span *ngIf="chargementConseil">{{ langueService.t('recherche_en_cours') }}</span>
         </button>
-        <button class="btn-outline" (click)="appelerConseiller()" [disabled]="chargementAppel">
-          <span *ngIf="!chargementAppel">📞 Appeler un conseiller</span>
-          <span *ngIf="chargementAppel">Appel en cours...</span>
-        </button>
+       <button class="btn-appel" (click)="appelerConseiller()" [disabled]="chargementAppel">
+         <span *ngIf="!chargementAppel">📞 Appeler un conseiller</span>
+         <span *ngIf="chargementAppel">Appel en cours...</span>
+       </button>
       </div>
       <div *ngIf="reponseConseil" class="reponse">
         <p>{{ reponseConseil.reponse }}</p>

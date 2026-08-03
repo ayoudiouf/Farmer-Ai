@@ -2,6 +2,7 @@ package sn.farmerai.controller;
 
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
@@ -22,7 +23,8 @@ public class AuthController {
     @PostMapping("/register")
     public ResponseEntity<?> register(@Valid @RequestBody RegisterRequest req) {
         if (userRepository.existsByTelephone(req.telephone())) {
-            return ResponseEntity.badRequest().body("Un compte existe déjà avec ce numéro.");
+            return ResponseEntity.status(HttpStatus.CONFLICT)
+                    .body(new ErreurAuth("TELEPHONE_EXISTANT", "Ce numéro est déjà enregistré."));
         }
         User user = User.builder()
                 .telephone(req.telephone())
@@ -50,4 +52,6 @@ public class AuthController {
         String token = jwtUtil.generateToken(user.getTelephone());
         return ResponseEntity.ok(new AuthResponse(token, user.getTelephone(), user.getNomComplet()));
     }
+
+    record ErreurAuth(String code, String message) {}
 }

@@ -38,3 +38,13 @@
     </p>
   </div>
 </div>
+<div class="popup-overlay" *ngIf="afficherPopupTelephoneExistant">
+  <div class="popup-box">
+    <h2>Numéro déjà utilisé</h2>
+    <p>Ce numéro est déjà enregistré. Si c'est le vôtre, connectez-vous.</p>
+    <div class="popup-actions">
+      <button class="btn-outline" (click)="fermerPopup()">Annuler</button>
+      <button class="btn-primary" (click)="allerVersConnexion()">Se connecter</button>
+    </div>
+  </div>
+</div>

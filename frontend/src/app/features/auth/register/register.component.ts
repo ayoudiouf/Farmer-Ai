@@ -22,6 +22,8 @@ export class RegisterComponent {
   erreur = '';
   chargement = false;
 
+  afficherPopupTelephoneExistant = false;
+
   constructor(
     private authService: AuthService,
     private router: Router,
@@ -30,7 +32,9 @@ export class RegisterComponent {
 
   onSubmit(): void {
     this.erreur = '';
+    this.afficherPopupTelephoneExistant = false;
     this.chargement = true;
+
     this.authService
       .register({
         telephone: this.telephone,
@@ -44,10 +48,23 @@ export class RegisterComponent {
           this.langueService.changerLangue(this.langueChoisie);
           this.router.navigate(['/dashboard']);
         },
-        error: () => {
-          this.erreur = this.langueService.t('erreur_inscription');
+        error: (err) => {
           this.chargement = false;
+
+          if (err.status === 409) {
+            this.afficherPopupTelephoneExistant = true;
+          } else {
+            this.erreur = this.langueService.t('erreur_inscription');
+          }
         }
       });
+  }
+
+  fermerPopup(): void {
+    this.afficherPopupTelephoneExistant = false;
+  }
+
+  allerVersConnexion(): void {
+    this.router.navigate(['/login']);
   }
 }

@@ -387,25 +387,34 @@
   gap: 12px;
   flex-wrap: wrap;
 }
-
-.appel-confirme {
-  color: #2e7d32;
-  font-weight: 500;
-  margin-top: 8px;
+.btn-appel {
+  width: 100%;
+  background: white;
+  color: #166534;
+  border: 1.5px solid #166534;
+  border-radius: 10px;
+  padding: 0.85rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.2s ease, color 0.2s ease;
 }
 
-.erreur-appel {
-  color: #c62828;
-  margin-top: 8px;
+.btn-appel:hover {
+  background: #166534;
+  color: white;
 }
 
+.btn-appel:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
 @media (max-width: 640px) {
   .row-two-cols, .plans {
     grid-template-columns: 1fr;
   }
 }
 @media (max-width: 480px) {
-  .app-header {
+  .e-header {
     padding: 0.75rem 1rem;
     column-gap: 0.5rem;
   }

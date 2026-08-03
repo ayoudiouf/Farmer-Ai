@@ -100,7 +100,7 @@ export class DashboardComponent implements OnInit {
     this.erreurAppel = null;
     this.appelConfirme = false;
 
-    const numero = this.authService.getTelephone?.();
+    const numero = this.authService.getTelephone();
     if (!numero) {
       this.erreurAppel = "Aucun numéro de téléphone associé à votre profil.";
       return;
