@@ -42,28 +42,35 @@ export class DashboardComponent implements OnInit {
     humiditeSol: 45
   };
 
-  private readonly userId = 1;
+private userId!: number;
 
-  constructor(
-    private diagnosticService: DiagnosticService,
-    private conseilService: ConseilService,
-    private paymentService: PaymentService,
-    private authService: AuthService,
-    private voiceService: VoiceService,
-    public langueService: LangueService
-  ) {}
+constructor(
+  private diagnosticService: DiagnosticService,
+  private conseilService: ConseilService,
+  private paymentService: PaymentService,
+  private authService: AuthService,
+  private voiceService: VoiceService,
+  public langueService: LangueService
+) {}
 
-  ngOnInit(): void {
-    this.chargerProfilUtilisateur();
+ngOnInit(): void {
+  this.chargerProfilUtilisateur();
 
-    this.diagnosticService.historique(this.userId).subscribe({
-      next: (data) => {
-        this.historique = data;
-        this.chargementHistorique = false;
-      },
-      error: () => (this.chargementHistorique = false)
-    });
+  const id = this.authService.getUserId();
+  if (!id) {
+    this.chargementHistorique = false;
+    return;
   }
+  this.userId = id;
+
+  this.diagnosticService.historique(this.userId).subscribe({
+    next: (data) => {
+      this.historique = data;
+      this.chargementHistorique = false;
+    },
+    error: () => (this.chargementHistorique = false)
+  });
+}
 
   private chargerProfilUtilisateur(): void {
     const nomComplet = this.authService.getNomComplet();

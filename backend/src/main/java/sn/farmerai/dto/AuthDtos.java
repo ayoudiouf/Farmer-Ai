@@ -18,6 +18,7 @@ public class AuthDtos {
     ) {}
 
     public record AuthResponse(
+        Long id,
         String token,
         String telephone,
         String nomComplet

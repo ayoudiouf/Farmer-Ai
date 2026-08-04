@@ -4,6 +4,7 @@ import { Observable, tap } from 'rxjs';
 import { environment } from '../../../environments/environment';
 
 export interface AuthResponse {
+  id: number;
   token: string;
   telephone: string;
   nomComplet: string;
@@ -15,6 +16,7 @@ export class AuthService {
   private readonly tokenKey = 'farmerai_token';
   private readonly nomKey = 'farmerai_nom';
   private readonly telKey = 'farmerai_tel';
+  private readonly idKey = 'farmerai_id';
 
   constructor(private http: HttpClient) {}
 
@@ -40,6 +42,7 @@ export class AuthService {
     localStorage.removeItem(this.tokenKey);
     localStorage.removeItem(this.nomKey);
     localStorage.removeItem(this.telKey);
+    localStorage.removeItem(this.idKey);
   }
 
   getToken(): string | null {
@@ -54,6 +57,11 @@ export class AuthService {
     return localStorage.getItem(this.telKey) || '';
   }
 
+  getUserId(): number | null {
+    const id = localStorage.getItem(this.idKey);
+    return id ? Number(id) : null;
+  }
+
   isLoggedIn(): boolean {
     return !!this.getToken();
   }
@@ -62,5 +70,6 @@ export class AuthService {
     localStorage.setItem(this.tokenKey, res.token);
     localStorage.setItem(this.nomKey, res.nomComplet);
     localStorage.setItem(this.telKey, res.telephone);
+    localStorage.setItem(this.idKey, res.id.toString());
   }
 }

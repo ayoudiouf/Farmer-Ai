@@ -37,7 +37,7 @@ public class AuthController {
         userRepository.save(user);
 
         String token = jwtUtil.generateToken(user.getTelephone());
-        return ResponseEntity.ok(new AuthResponse(token, user.getTelephone(), user.getNomComplet()));
+        return ResponseEntity.ok(new AuthResponse(user.getId(), token, user.getTelephone(), user.getNomComplet()));
     }
 
     @PostMapping("/login")
@@ -50,7 +50,7 @@ public class AuthController {
         }
 
         String token = jwtUtil.generateToken(user.getTelephone());
-        return ResponseEntity.ok(new AuthResponse(token, user.getTelephone(), user.getNomComplet()));
+        return ResponseEntity.ok(new AuthResponse(user.getId(), token, user.getTelephone(), user.getNomComplet()));
     }
 
     record ErreurAuth(String code, String message) {}
