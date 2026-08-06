@@ -9,17 +9,20 @@ import { LangueSelectorComponent } from '../../shared/langue-selector/langue-sel
 import { PaymentService } from '../../core/services/payment.service';
 import { AuthService } from '../../core/services/auth.service';
 import { VoiceService } from '../../core/services/voice.service';
+import { SidebarComponent } from '../../shared/sidebar/sidebar.component';
+
 
 @Component({
   selector: 'app-dashboard',
   standalone: true,
-  imports: [CommonModule, FormsModule, RouterLink, LangueSelectorComponent],
+  imports: [CommonModule, FormsModule, RouterLink, LangueSelectorComponent, SidebarComponent],
   templateUrl: './dashboard.component.html',
   styleUrl: './dashboard.component.css'
 })
 export class DashboardComponent implements OnInit {
   historique: Diagnostic[] = [];
   chargementHistorique = true;
+  sidebarOuverte = false;
 
   question = '';
   reponseConseil: ReponseConseil | null = null;

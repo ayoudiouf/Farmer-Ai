@@ -48,15 +48,14 @@ export class RegisterComponent {
           this.langueService.changerLangue(this.langueChoisie);
           this.router.navigate(['/dashboard']);
         },
-        error: (err) => {
-          this.chargement = false;
-
-          if (err.status === 409) {
-            this.afficherPopupTelephoneExistant = true;
-          } else {
-            this.erreur = this.langueService.t('erreur_inscription');
-          }
-        }
+       error: (err) => {
+  this.chargement = false;
+  if (err.status === 409) {
+    this.afficherPopupTelephoneExistant = true;
+  } else {
+    this.erreur = this.langueService.t('erreur_inscription'); 
+  }
+}
       });
   }
 

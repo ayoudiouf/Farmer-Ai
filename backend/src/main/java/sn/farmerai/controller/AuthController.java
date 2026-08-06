@@ -10,6 +10,9 @@ import sn.farmerai.config.JwtUtil;
 import sn.farmerai.dto.AuthDtos.*;
 import sn.farmerai.model.User;
 import sn.farmerai.repository.UserRepository;
+import sn.farmerai.service.SmsService;
+import java.util.Random;
+import java.util.Map;
 
 @RestController
 @RequestMapping("/api/auth")
@@ -19,6 +22,7 @@ public class AuthController {
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
     private final JwtUtil jwtUtil;
+    private final SmsService smsService;
 
     @PostMapping("/register")
     public ResponseEntity<?> register(@Valid @RequestBody RegisterRequest req) {
@@ -39,6 +43,37 @@ public class AuthController {
         String token = jwtUtil.generateToken(user.getTelephone());
         return ResponseEntity.ok(new AuthResponse(user.getId(), token, user.getTelephone(), user.getNomComplet()));
     }
+
+    @PostMapping("/forgot-password")
+public ResponseEntity<?> forgotPassword(@Valid @RequestBody ForgotPasswordRequest req) {
+    User user = userRepository.findByTelephone(req.telephone()).orElse(null);
+
+    if (user == null) {
+        return ResponseEntity.status(404)
+            .body(new ErreurAuth("UTILISATEUR_INTROUVABLE", "Numéro introuvable."));
+    }
+
+    String newPassword = generatePassword();
+    user.setMotDePasseHash(passwordEncoder.encode(newPassword));
+    userRepository.save(user);
+
+    smsService.sendSms(
+        req.telephone(),
+        "FarmerAI : Votre mot de passe temporaire est : " + newPassword + ". Changez-le après connexion."
+    );
+
+    return ResponseEntity.ok(Map.of("message", "Mot de passe envoyé par SMS"));
+}
+
+private String generatePassword() {
+    String chars = "ABCDEFGHJKLMNPQRSTUVWXYZabcdefghjkmnpqrstuvwxyz23456789";
+    StringBuilder sb = new StringBuilder();
+    Random random = new Random();
+    for (int i = 0; i < 8; i++) {
+        sb.append(chars.charAt(random.nextInt(chars.length())));
+    }
+    return sb.toString();
+}
 
     @PostMapping("/login")
     public ResponseEntity<?> login(@Valid @RequestBody LoginRequest req) {

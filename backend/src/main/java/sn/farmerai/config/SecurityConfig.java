@@ -53,6 +53,7 @@ public class SecurityConfig {
             .sessionManagement(sm -> sm.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
             .authorizeHttpRequests(auth -> auth
                 .requestMatchers("/api/auth/**", "/api/ussd/**").permitAll()
+                .requestMatchers("/api/auth/forgot-password").permitAll()
                 .anyRequest().authenticated()
             )
             .authenticationProvider(authenticationProvider())

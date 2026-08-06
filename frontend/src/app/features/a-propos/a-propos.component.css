@@ -1,0 +1,122 @@
+.page-container {
+  min-height: 100vh;
+  background: #f0f4f0;
+  padding: 1.5rem 1rem;
+  max-width: 680px;
+  margin: 0 auto;
+}
+
+.page-header {
+  margin-bottom: 1rem;
+}
+
+.btn-retour {
+  color: #2d6a4f;
+  text-decoration: none;
+  font-size: 0.9rem;
+}
+
+.hero {
+  text-align: center;
+  padding: 2rem 1rem;
+}
+
+.logo {
+  width: 72px;
+  height: 72px;
+  margin-bottom: 0.8rem;
+}
+
+.hero h1 {
+  color: #1b4332;
+  font-size: 2rem;
+  margin: 0 0 0.5rem;
+}
+
+.tagline {
+  color: #555;
+  font-size: 0.95rem;
+  line-height: 1.5;
+}
+
+.card {
+  background: white;
+  border-radius: 12px;
+  padding: 1.5rem;
+  margin-bottom: 1rem;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+}
+
+.card h2 {
+  color: #1b4332;
+  font-size: 1.05rem;
+  margin-bottom: 0.8rem;
+}
+
+.card p {
+  color: #444;
+  line-height: 1.7;
+  font-size: 0.9rem;
+  margin: 0;
+}
+
+.etapes {
+  display: flex;
+  flex-direction: column;
+  gap: 1.2rem;
+}
+
+.etape {
+  display: flex;
+  align-items: flex-start;
+  gap: 1rem;
+}
+
+.etape-icone {
+  font-size: 1.8rem;
+  flex-shrink: 0;
+}
+
+.etape strong {
+  display: block;
+  color: #1b4332;
+  margin-bottom: 0.3rem;
+  font-size: 0.95rem;
+}
+
+.etape p {
+  margin: 0;
+  color: #555;
+  font-size: 0.88rem;
+  line-height: 1.5;
+}
+
+.contacts {
+  display: flex;
+  flex-direction: column;
+  gap: 0.8rem;
+}
+
+.contact-item {
+  display: flex;
+  align-items: center;
+  gap: 0.8rem;
+  color: #2d6a4f;
+  text-decoration: none;
+  font-size: 0.9rem;
+  padding: 0.6rem;
+  border-radius: 8px;
+  transition: background 0.2s;
+}
+
+.contact-item:hover {
+  background: #f0f7f4;
+}
+
+.version {
+  text-align: center;
+  color: #aaa;
+  font-size: 0.8rem;
+  margin-top: 1.5rem;
+  padding-bottom: 2rem;
+}

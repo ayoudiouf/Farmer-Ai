@@ -37,5 +37,11 @@ africastalking:
   username: ${AT_USERNAME:}
   api-key: ${AT_API_KEY:}
   caller-id: ${AT_CALLER_ID:}
+
+orange:
+  client-id: ${ORANGE_CLIENT_ID:placeholder}
+  client-secret: ${ORANGE_CLIENT_SECRET:placeholder}
+  sender-number: ${ORANGE_SENDER_NUMBER:+221700000000}
+
 cors:
   allowed-origins: ${CORS_ALLOWED_ORIGINS:http://localhost:4200}

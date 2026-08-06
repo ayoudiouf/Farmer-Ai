@@ -16,6 +16,9 @@
       </label>
       <p class="erreur" *ngIf="erreur">{{ erreur }}</p>
       <button type="submit">{{ langueService.t('se_connecter') }}</button>
+      <p class="lien-secondaire">
+  <a routerLink="/forgot-password">Mot de passe oublié ?</a>
+</p>
     </form>
     <p class="lien-secondaire">
       {{ langueService.t('pas_de_compte') }}

@@ -23,4 +23,8 @@ public class AuthDtos {
         String telephone,
         String nomComplet
     ) {}
+    public record ForgotPasswordRequest(
+    @NotBlank String telephone
+    ) {}
 }
+

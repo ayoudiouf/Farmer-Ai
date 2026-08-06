@@ -1,6 +1,11 @@
 ﻿<div class="dashboard-container">
+
+  <!-- SIDEBAR -->
+  <app-sidebar [isOpen]="sidebarOuverte" (fermer)="sidebarOuverte = false"></app-sidebar>
+
   <header class="app-header">
-    <button class="icon-btn" aria-label="Menu">
+    <!-- Bouton hamburger branché -->
+    <button class="icon-btn" aria-label="Menu" (click)="sidebarOuverte = true">
       <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
         <line x1="3" y1="6" x2="21" y2="6"/>
         <line x1="3" y1="12" x2="21" y2="12"/>
@@ -39,10 +44,10 @@
           <span *ngIf="!chargementConseil">➤ {{ langueService.t('demander_conseil') }}</span>
           <span *ngIf="chargementConseil">{{ langueService.t('recherche_en_cours') }}</span>
         </button>
-       <button class="btn-appel" (click)="appelerConseiller()" [disabled]="chargementAppel">
-         <span *ngIf="!chargementAppel">📞 Appeler un conseiller</span>
-         <span *ngIf="chargementAppel">Appel en cours...</span>
-       </button>
+        <button class="btn-appel" (click)="appelerConseiller()" [disabled]="chargementAppel">
+          <span *ngIf="!chargementAppel">📞 Appeler un conseiller</span>
+          <span *ngIf="chargementAppel">Appel en cours...</span>
+        </button>
       </div>
       <div *ngIf="reponseConseil" class="reponse">
         <p>{{ reponseConseil.reponse }}</p>

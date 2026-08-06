@@ -1,0 +1,77 @@
+<div class="page-container">
+
+  <header class="page-header">
+    <a routerLink="/dashboard" class="btn-retour">← Retour</a>
+    <h1>📋 Historique des diagnostics</h1>
+  </header>
+
+  <!-- Chargement -->
+  <div class="etat-centre" *ngIf="chargement">
+    <p>Chargement...</p>
+  </div>
+
+  <!-- Erreur -->
+  <div class="etat-centre" *ngIf="erreur">
+    <p class="erreur">{{ erreur }}</p>
+  </div>
+
+  <!-- Vide -->
+  <div class="etat-centre" *ngIf="!chargement && !erreur && diagnostics.length === 0">
+    <p class="emoji">📷</p>
+    <p>Aucun diagnostic pour l'instant.</p>
+    <a routerLink="/diagnostic" class="btn-primary">Faire un diagnostic</a>
+  </div>
+
+  <!-- Liste -->
+  <div class="liste" *ngIf="!chargement && diagnostics.length > 0">
+    <div
+      class="card-diagnostic"
+      *ngFor="let d of diagnostics"
+      (click)="ouvrirDetail(d)">
+
+      <div class="card-left">
+        <div class="icone">🌿</div>
+        <div class="infos">
+          <strong>{{ d.maladieDetectee }}</strong>
+          <span class="culture">{{ d.cultureConcernee }}</span>
+          <span class="date">{{ d.dateAnalyse | date:'dd/MM/yyyy à HH:mm' }}</span>
+        </div>
+      </div>
+
+      <div class="card-right">
+        <span class="badge" [ngClass]="getBadgeClass(d.indiceConfiance)">
+          {{ (d.indiceConfiance * 100).toFixed(0) }}%
+        </span>
+        <span class="chevron">›</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal détail -->
+  <div class="modal-overlay" *ngIf="diagnosticSelectionne" (click)="fermerDetail()">
+    <div class="modal-box" (click)="$event.stopPropagation()">
+
+      <button class="modal-close" (click)="fermerDetail()">✕</button>
+
+      <h2>{{ diagnosticSelectionne.maladieDetectee }}</h2>
+      <p class="modal-meta">
+        🌱 {{ diagnosticSelectionne.cultureConcernee }} &nbsp;•&nbsp;
+        📅 {{ diagnosticSelectionne.dateAnalyse | date:'dd/MM/yyyy' }}
+      </p>
+
+      <div class="modal-confiance">
+        <span>Indice de confiance</span>
+        <span class="badge" [ngClass]="getBadgeClass(diagnosticSelectionne.indiceConfiance)">
+          {{ (diagnosticSelectionne.indiceConfiance * 100).toFixed(0) }}%
+        </span>
+      </div>
+
+      <div class="modal-section">
+        <h3>💡 Recommandation</h3>
+        <p>{{ diagnosticSelectionne.recommandation }}</p>
+      </div>
+
+    </div>
+  </div>
+
+</div>
