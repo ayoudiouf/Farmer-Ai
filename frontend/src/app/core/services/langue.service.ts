@@ -6,6 +6,7 @@ type Dictionnaire = Record<string, string>;
 
 const TRADUCTIONS: Record<Langue, Dictionnaire> = {
   FRANCAIS: {
+    connexion: 'Connexion',
     connexion_titre: 'FarmerAI — Connexion',
     telephone: 'Téléphone',
     mot_de_passe: 'Mot de passe',
@@ -43,9 +44,39 @@ const TRADUCTIONS: Record<Langue, Dictionnaire> = {
     maladie_detectee: 'Maladie détectée',
     recommandation: 'Recommandation',
     deconnexion: 'Déconnexion',
-    erreur_camera: "Impossible d'accéder à la caméra."
+    erreur_camera: "Impossible d'accéder à la caméra.",
+    accueil_nav_fonctionnalites: 'Fonctionnalités',
+    accueil_nav_comment: 'Comment ça marche',
+    accueil_nav_apropos: 'À propos',
+    accueil_nav_diagnostic: 'Diagnostic photo',
+    accueil_nav_conseil: 'Demander un conseil',
+    accueil_hero_titre: "Protégez vos cultures avec l'intelligence artificielle",
+    accueil_hero_sous_titre: "FarmerAI détecte les maladies des plantes à partir d'une simple photo et vous donne des conseils agronomiques adaptés, dans votre langue.",
+    accueil_cta_commencer: 'Commencer gratuitement',
+    accueil_cta_essayer: 'Essayer un diagnostic',
+    accueil_login_hint: 'La connexion vous sera demandée pour poser une question ou analyser une photo.',
+    accueil_fonctionnalites_titre: 'Ce que FarmerAI fait pour vous',
+    accueil_feat_diagnostic_titre: 'Diagnostic par photo',
+    accueil_feat_diagnostic_texte: "Prenez une photo de la plante malade : notre IA identifie la maladie et propose un traitement.",
+    accueil_feat_conseil_titre: 'Conseils agronomiques',
+    accueil_feat_conseil_texte: "Posez vos questions sur les semis, l'entretien ou les récoltes et recevez des conseils fiables.",
+    accueil_feat_historique_titre: 'Historique de suivi',
+    accueil_feat_historique_texte: "Retrouvez tous vos diagnostics et suivez l'évolution de vos cultures.",
+    accueil_feat_langue_titre: 'Dans votre langue',
+    accueil_feat_langue_texte: "Français, Wolof, Diola et Sérère : l'application parle votre langue.",
+    accueil_essayer: 'Essayer',
+    accueil_etapes_titre: 'Comment ça marche ?',
+    accueil_etape1_titre: 'Créez votre compte',
+    accueil_etape1_texte: 'Inscrivez-vous en quelques secondes avec votre numéro de téléphone.',
+    accueil_etape2_titre: 'Prenez une photo',
+    accueil_etape2_texte: 'Photographiez la plante qui vous inquiète.',
+    accueil_etape3_titre: 'Recevez le diagnostic',
+    accueil_etape3_texte: "L'IA analyse la photo et vous donne le résultat avec les recommandations.",
+    accueil_cta_finale_titre: 'Prêt à protéger vos récoltes ?',
+    accueil_cta_finale_texte: "Rejoignez les agriculteurs qui utilisent FarmerAI au quotidien."
   },
   WOLOF: {
+    connexion: 'Dugg',
     connexion_titre: 'FarmerAI — Dugg',
     telephone: 'Nimero telefon',
     mot_de_passe: 'Baatub tëriim',
@@ -83,9 +114,39 @@ const TRADUCTIONS: Record<Langue, Dictionnaire> = {
     maladie_detectee: 'Feebar bi gis',
     recommandation: 'Digal',
     deconnexion: 'Génn',
-    erreur_camera: 'Mënuma jëfandikoo kamera bi.'
+    erreur_camera: 'Mënuma jëfandikoo kamera bi.',
+    accueil_nav_fonctionnalites: 'Jumtukaay yi',
+    accueil_nav_comment: 'Naka la doxe',
+    accueil_nav_apropos: 'Ci mbir bi',
+    accueil_nav_diagnostic: 'Diagnostik nataal',
+    accueil_nav_conseil: 'Laaj xalaat',
+    accueil_hero_titre: "Aar i tool yi ak xelbu ordinateur",
+    accueil_hero_sous_titre: "FarmerAI gis na feebar i garab ci benn nataal, te may la xalaat ci mbay ci sa làkk.",
+    accueil_cta_commencer: 'Tambali léegi',
+    accueil_cta_essayer: 'Jël diagnostik',
+    accueil_login_hint: 'Dugg nga ba laaj walla analize nataal.',
+    accueil_fonctionnalites_titre: 'Lu FarmerAI mën laak ngën',
+    accueil_feat_diagnostic_titre: 'Diagnostik ci nataal',
+    accueil_feat_diagnostic_texte: 'Jël nataalu garab wi wàcce: AI bi gis na feebar bi te may la digal.',
+    accueil_feat_conseil_titre: 'Xalaat ci mbay',
+    accueil_feat_conseil_texte: 'Laaj la ci njëmbóot, ñakk walla i melokaan, jot i xalaat yu rafet.',
+    accueil_feat_historique_titre: 'Diagnostik yi wey',
+    accueil_feat_historique_texte: 'Gis i diagnostik yépp te toppatoo sa i garab.',
+    accueil_feat_langue_titre: 'Ci sa làkk',
+    accueil_feat_langue_texte: 'Wolof, Diola, Sérère ak Faranse: aplikasyon bi wax sa làkk.',
+    accueil_essayer: 'Jël',
+    accueil_etapes_titre: 'Naka la doxe ?',
+    accueil_etape1_titre: 'Sos sa compte',
+    accueil_etape1_texte: 'Bindu ci ay seconde ak sa nimero telefon.',
+    accueil_etape2_titre: 'Jël nataal',
+    accueil_etape2_texte: 'Nataal garab wi nga tiit.',
+    accueil_etape3_titre: 'Jot diagnostik bi',
+    accueil_etape3_texte: 'AI bi analize nataal bi te may la njort ak i digal.',
+    accueil_cta_finale_titre: 'Jekk nga aar sa i récolte ?',
+    accueil_cta_finale_texte: 'Dugg ak i baykat yi jëfandikoo FarmerAI bés bu nekk.'
   },
   DIOLA: {
+    connexion: 'Ehul',
     connexion_titre: 'FarmerAI — Ehul',
     telephone: 'Nimero telefon',
     mot_de_passe: 'Assiŋ',
@@ -123,9 +184,39 @@ const TRADUCTIONS: Record<Langue, Dictionnaire> = {
     maladie_detectee: 'Bacar ejaŋu',
     recommandation: 'Digal',
     deconnexion: 'Efit',
-    erreur_camera: 'Ibaje kamera essobe.'
+    erreur_camera: 'Ibaje kamera essobe.',
+    accueil_nav_fonctionnalites: 'Jumtukaay',
+    accueil_nav_comment: 'Kajaŋut kway',
+    accueil_nav_apropos: 'Kay kayay',
+    accueil_nav_diagnostic: 'Diagnostik nataal',
+    accueil_nav_conseil: 'Kaañ xalaat',
+    accueil_hero_titre: 'Aar i bugañ ak essum i ordinater',
+    accueil_hero_sous_titre: 'FarmerAI ejaŋu bacar i garab ku benn nataal, te may i xalaat ci mbay ci kañam.',
+    accueil_cta_commencer: 'Essum leegi',
+    accueil_cta_essayer: 'Essum diagnostik',
+    accueil_login_hint: 'Ehul ba kaañ walla analize nataal.',
+    accueil_fonctionnalites_titre: 'Lu FarmerAI mën',
+    accueil_feat_diagnostic_titre: 'Diagnostik ku nataal',
+    accueil_feat_diagnostic_texte: 'Emat nataalu garab ubaje: AI ejaŋu bacar te may digal.',
+    accueil_feat_conseil_titre: 'Xalaat ci mbay',
+    accueil_feat_conseil_texte: 'Kaañ i laaj ci njëmbóot, ñakk walla i melokaan, ubaje i xalaat.',
+    accueil_feat_historique_titre: 'Diagnostik ikatiye',
+    accueil_feat_historique_texte: 'Gis i diagnostik yépp te toppatoo sa i garab.',
+    accueil_feat_langue_titre: 'Ci kañam',
+    accueil_feat_langue_texte: 'Diola, Wolof, Sérère ak Faranse: aplikasyon kaañ kañam.',
+    accueil_essayer: 'Essum',
+    accueil_etapes_titre: 'Kajaŋut kway ?',
+    accueil_etape1_titre: 'Ussum compte',
+    accueil_etape1_texte: 'Bind ci ay seconde ak nimero telefon.',
+    accueil_etape2_titre: 'Emat nataal',
+    accueil_etape2_texte: 'Nataal garab ubaje.',
+    accueil_etape3_titre: 'Ubaje diagnostik',
+    accueil_etape3_texte: 'AI analize nataal te may njort ak i digal.',
+    accueil_cta_finale_titre: 'Jekk aar sa récolte ?',
+    accueil_cta_finale_texte: 'Ehul ak i baykat jëfandikoo FarmerAI.'
   },
   SERERE: {
+    connexion: 'Duge',
     connexion_titre: 'FarmerAI — Duge',
     telephone: 'Nimero telefon',
     mot_de_passe: 'Baat u f省',
@@ -163,7 +254,36 @@ const TRADUCTIONS: Record<Langue, Dictionnaire> = {
     maladie_detectee: 'Bacar o gis',
     recommandation: 'Digal',
     deconnexion: 'Gen',
-    erreur_camera: 'O am na kamera essobe.'
+    erreur_camera: 'O am na kamera essobe.',
+    accueil_nav_fonctionnalites: 'Jumtukaay',
+    accueil_nav_comment: 'Naka la doxe',
+    accueil_nav_apropos: 'Ci mbir',
+    accueil_nav_diagnostic: 'Diagnostik nataal',
+    accueil_nav_conseil: 'Laj xalaat',
+    accueil_hero_titre: 'Aar o tool yi ak xelbu ordinater',
+    accueil_hero_sous_titre: 'FarmerAI gis bacar i garab ci benn nataal, te may la xalaat ci mbay ci sa lakk.',
+    accueil_cta_commencer: 'Tambali leegi',
+    accueil_cta_essayer: 'Jël diagnostik',
+    accueil_login_hint: 'Duge ba laj walla analiz nataal.',
+    accueil_fonctionnalites_titre: 'Lu FarmerAI mën',
+    accueil_feat_diagnostic_titre: 'Diagnostik ci nataal',
+    accueil_feat_diagnostic_texte: 'Jël nataal u garab wi wàcc: AI bi gis na bacar bi te may la digal.',
+    accueil_feat_conseil_titre: 'Xalaat ci mbay',
+    accueil_feat_conseil_texte: 'Laj o laaj ci njëmbóot, ñakk walla récolte, jot o xalaat yu rafet.',
+    accueil_feat_historique_titre: 'Diagnostik yi wey',
+    accueil_feat_historique_texte: 'Gis diagnostik yépp te toppatoo sa garab.',
+    accueil_feat_langue_titre: 'Ci sa lakk',
+    accueil_feat_langue_texte: 'Sérère, Wolof, Diola ak Faranse: aplikasyon bi wax sa lakk.',
+    accueil_essayer: 'Jël',
+    accueil_etapes_titre: 'Naka la doxe ?',
+    accueil_etape1_titre: 'Sos o compte',
+    accueil_etape1_texte: 'Bind ci ay seconde ak nimero telefon.',
+    accueil_etape2_titre: 'Jël nataal',
+    accueil_etape2_texte: 'Nataal garab wi nga tiit.',
+    accueil_etape3_titre: 'Jot diagnostik bi',
+    accueil_etape3_texte: 'AI bi analiz nataal bi te may la njort ak o digal.',
+    accueil_cta_finale_titre: 'Jekk aar sa récolte ?',
+    accueil_cta_finale_texte: 'Duge ak baykat yi jëfandikoo FarmerAI.'
   }
 };
 
@@ -174,14 +294,25 @@ const LABELS_LANGUE: Record<Langue, string> = {
   SERERE: 'Sérère'
 };
 
+const ABREVIATIONS_LANGUE: Record<Langue, string> = {
+  FRANCAIS: 'Fr',
+  WOLOF: 'Wo',
+  DIOLA: 'Di',
+  SERERE: 'Se'
+};
+
 @Injectable({ providedIn: 'root' })
 export class LangueService {
   private readonly storageKey = 'farmerai_langue';
   langueActuelle = signal<Langue>(this.chargerLangueInitiale());
 
-  readonly languesDisponibles: { code: Langue; label: string }[] = (
+  readonly languesDisponibles: { code: Langue; label: string; court: string }[] = (
     Object.keys(LABELS_LANGUE) as Langue[]
-  ).map((code) => ({ code, label: LABELS_LANGUE[code] }));
+  ).map((code) => ({ code, label: LABELS_LANGUE[code], court: ABREVIATIONS_LANGUE[code] }));
+
+  abreviationLangueActuelle(): string {
+    return ABREVIATIONS_LANGUE[this.langueActuelle()];
+  }
 
   private chargerLangueInitiale(): Langue {
     const sauvegardee = localStorage.getItem(this.storageKey) as Langue | null;

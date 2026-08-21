@@ -1,0 +1,137 @@
+<div class="accueil-page">
+
+  <!-- ===== NAVBAR PUBLIQUE ===== -->
+  <header class="navbar">
+    <a routerLink="/accueil" class="brand">
+      <img src="/image/logo-farmerai.png" alt="FarmerAI" class="brand-logo" />
+      <span class="brand-name">FarmerAI</span>
+    </a>
+
+    <nav class="nav-links" [class.ouvert]="menuOuvert">
+      <a href="#fonctionnalites">{{ langueService.t('accueil_nav_fonctionnalites') }}</a>
+      <a href="#comment">{{ langueService.t('accueil_nav_comment') }}</a>
+      <a routerLink="/a-propos">{{ langueService.t('accueil_nav_apropos') }}</a>
+      <span class="separateur"></span>
+      <a routerLink="/diagnostic" class="nav-action">{{ langueService.t('accueil_nav_diagnostic') }}</a>
+      <a routerLink="/dashboard" class="nav-action">{{ langueService.t('accueil_nav_conseil') }}</a>
+    </nav>
+
+    <div class="navbar-droite">
+      <app-langue-selector></app-langue-selector>
+
+      <div class="connexion-wrapper">
+        <button type="button" class="btn-connexion" (click)="basculerMenuConnexion($event)" [attr.aria-expanded]="menuConnexionOuvert">
+          {{ langueService.t('connexion') }}
+          <span class="fleche" [class.haut]="menuConnexionOuvert">▾</span>
+        </button>
+
+        <div class="menu-connexion" *ngIf="menuConnexionOuvert">
+          <a routerLink="/login" class="option-connexion">
+            <span class="icone-option">🔑</span>
+            {{ langueService.t('se_connecter') }}
+          </a>
+          <a routerLink="/register" class="option-connexion">
+            <span class="icone-option">📝</span>
+            {{ langueService.t('creer_compte') }}
+          </a>
+        </div>
+      </div>
+
+      <button class="menu-toggle" aria-label="Menu" (click)="basculerMenu($event)">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <line x1="3" y1="6" x2="21" y2="6"/>
+          <line x1="3" y1="12" x2="21" y2="12"/>
+          <line x1="3" y1="18" x2="21" y2="18"/>
+        </svg>
+      </button>
+    </div>
+  </header>
+
+  <!-- ===== HERO ===== -->
+  <section class="hero">
+    <div class="hero-texte">
+      <h1>{{ langueService.t('accueil_hero_titre') }}</h1>
+      <p>{{ langueService.t('accueil_hero_sous_titre') }}</p>
+      <div class="hero-actions">
+        <a routerLink="/register" class="btn-primaire">{{ langueService.t('accueil_cta_commencer') }}</a>
+        <a routerLink="/diagnostic" class="btn-secondaire">{{ langueService.t('accueil_cta_essayer') }}</a>
+      </div>
+      <p class="hero-note">{{ langueService.t('accueil_login_hint') }}</p>
+    </div>
+    <div class="hero-visuel">
+      <div class="phone-mockup">
+        <div class="phone-header">🌿 FarmerAI</div>
+        <div class="phone-photo">📷</div>
+        <div class="phone-resultat">
+          <span class="badge-confiance">92%</span>
+          <strong>{{ langueService.t('maladie_detectee') }} : Mildiou</strong>
+          <p>{{ langueService.t('recommandation') }} : traitement à base de cuivre</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== FONCTIONNALITÉS ===== -->
+  <section id="fonctionnalites" class="fonctionnalites">
+    <h2>{{ langueService.t('accueil_fonctionnalites_titre') }}</h2>
+    <div class="grille-fonctionnalites">
+
+      <a routerLink="/diagnostic" class="carte">
+        <div class="icone">📷</div>
+        <h3>{{ langueService.t('accueil_feat_diagnostic_titre') }}</h3>
+        <p>{{ langueService.t('accueil_feat_diagnostic_texte') }}</p>
+        <span class="lien-carte">{{ langueService.t('accueil_essayer') }} →</span>
+      </a>
+
+      <a routerLink="/dashboard" class="carte">
+        <div class="icone">🧠</div>
+        <h3>{{ langueService.t('accueil_feat_conseil_titre') }}</h3>
+        <p>{{ langueService.t('accueil_feat_conseil_texte') }}</p>
+        <span class="lien-carte">{{ langueService.t('accueil_essayer') }} →</span>
+      </a>
+
+      <div class="carte">
+        <div class="icone">📋</div>
+        <h3>{{ langueService.t('accueil_feat_historique_titre') }}</h3>
+        <p>{{ langueService.t('accueil_feat_historique_texte') }}</p>
+      </div>
+
+      <div class="carte">
+        <div class="icone">🌍</div>
+        <h3>{{ langueService.t('accueil_feat_langue_titre') }}</h3>
+        <p>{{ langueService.t('accueil_feat_langue_texte') }}</p>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ===== COMMENT ÇA MARCHE ===== -->
+  <section id="comment" class="etapes">
+    <h2>{{ langueService.t('accueil_etapes_titre') }}</h2>
+    <div class="grille-etapes">
+      <div class="etape">
+        <span class="numero">1</span>
+        <h3>{{ langueService.t('accueil_etape1_titre') }}</h3>
+        <p>{{ langueService.t('accueil_etape1_texte') }}</p>
+      </div>
+      <div class="etape">
+        <span class="numero">2</span>
+        <h3>{{ langueService.t('accueil_etape2_titre') }}</h3>
+        <p>{{ langueService.t('accueil_etape2_texte') }}</p>
+      </div>
+      <div class="etape">
+        <span class="numero">3</span>
+        <h3>{{ langueService.t('accueil_etape3_titre') }}</h3>
+        <p>{{ langueService.t('accueil_etape3_texte') }}</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== APPEL À L'ACTION ===== -->
+  <section class="cta-finale">
+    <h2>{{ langueService.t('accueil_cta_finale_titre') }}</h2>
+    <p>{{ langueService.t('accueil_cta_finale_texte') }}</p>
+    <a routerLink="/register" class="btn-primaire grand">{{ langueService.t('accueil_cta_commencer') }}</a>
+  </section>
+
+</div>

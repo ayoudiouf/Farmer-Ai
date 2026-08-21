@@ -1,37 +1,100 @@
-﻿.langue-selector {
+﻿:host {
   display: flex;
   justify-content: flex-end;
   margin-bottom: 12px;
 }
 
-.langue-selector select {
-  padding: 4px 8px;
+.langue-selector {
+  position: relative;
+  display: inline-flex;
+}
+
+.langue-bouton {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: 5px 9px;
   border: 1px solid #cfd9cc;
-  border-radius: 6px;
+  border-radius: 8px;
   background: white;
   color: #2f5233;
-  font-weight: 600;
+  font-weight: 700;
   font-size: 0.8rem;
   cursor: pointer;
-  max-width: 110px;
+  line-height: 1;
 }
 
-@media (max-width: 640px) {
-  .langue-selector select {
-    font-size: 0.75rem;
-    padding: 3px 6px;
-    max-width: 90px;
-  }
+.langue-bouton:hover {
+  background: #eef5ea;
 }
 
-@media (max-width: 480px) {
-  .langue-selector {
-    margin-bottom: 0;
-  }
+.abrev {
+  text-transform: none;
+}
 
-  .langue-selector select {
-    font-size: 0.7rem;
-    padding: 3px 5px;
-    max-width: 75px;
-  }
+.fleche {
+  font-size: 0.65rem;
+  transition: transform 0.15s;
+}
+
+.fleche.haut {
+  transform: rotate(180deg);
+}
+
+.langue-menu {
+  position: absolute;
+  top: calc(100% + 6px);
+  right: 0;
+  min-width: 150px;
+  background: white;
+  border: 1px solid #e2e8e0;
+  border-radius: 10px;
+  box-shadow: 0 12px 24px rgba(47, 82, 51, 0.15);
+  padding: 6px;
+  z-index: 100;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.langue-option {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  width: 100%;
+  padding: 8px 10px;
+  border: none;
+  border-radius: 7px;
+  background: transparent;
+  color: #3f5a41;
+  font-weight: 600;
+  font-size: 0.85rem;
+  text-align: left;
+}
+
+.langue-option:hover {
+  background: #eef5ea;
+}
+
+.langue-option.active {
+  background: #eef5ea;
+  color: #2f5233;
+}
+
+.court {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 24px;
+  height: 20px;
+  border-radius: 5px;
+  background: #dcead8;
+  color: #2f5233;
+  font-size: 0.72rem;
+  font-weight: 700;
+}
+
+.coche {
+  margin-left: auto;
+  color: #4a7c4e;
 }

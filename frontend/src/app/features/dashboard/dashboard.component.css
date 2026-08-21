@@ -39,6 +39,7 @@
   display: flex;
   align-items: center;
   height: 36px; /* même hauteur que .avatar pour un alignement parfait */
+  margin-bottom: 0;
 }
 
 .icon-btn {

@@ -1,10 +1,14 @@
 ﻿import { Routes } from '@angular/router';
 import { authGuard } from './core/guards/auth.guard';
-import { LoginComponent } from './features/auth/login/login.component';
 
 export const routes: Routes = [
-  { path: '', redirectTo: 'login', pathMatch: 'full' },
+  { path: '', redirectTo: 'accueil', pathMatch: 'full' },
 
+  {
+    path: 'accueil',
+    loadComponent: () =>
+      import('./features/accueil/accueil.component').then(m => m.AccueilComponent)
+  },
   {
     path: 'login',
     loadComponent: () =>
@@ -66,5 +70,5 @@ export const routes: Routes = [
       import('./features/conditions/conditions.component').then(m => m.ConditionsComponent)
   },
 
-  { path: '**', component: LoginComponent }
+  { path: '**', redirectTo: 'accueil' }
 ];

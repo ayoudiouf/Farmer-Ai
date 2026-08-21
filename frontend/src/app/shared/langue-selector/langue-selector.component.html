@@ -1,10 +1,26 @@
 ﻿<div class="langue-selector">
-  <select
-    [value]="langueService.langueActuelle()"
-    (change)="langueService.changerLangue($any($event.target).value)"
+  <button
+    type="button"
+    class="langue-bouton"
+    (click)="basculer($event)"
+    [attr.aria-expanded]="ouvert"
+    title="Langue"
   >
-    <option *ngFor="let l of langueService.languesDisponibles" [value]="l.code">
+    <span class="abrev">{{ langueService.abreviationLangueActuelle() }}</span>
+    <span class="fleche" [class.haut]="ouvert">▾</span>
+  </button>
+
+  <div class="langue-menu" *ngIf="ouvert">
+    <button
+      type="button"
+      *ngFor="let l of langueService.languesDisponibles"
+      class="langue-option"
+      [class.active]="l.code === langueService.langueActuelle()"
+      (click)="choisir(l.code, $event)"
+    >
+      <span class="court">{{ l.court }}</span>
       {{ l.label }}
-    </option>
-  </select>
+      <span class="coche" *ngIf="l.code === langueService.langueActuelle()">✓</span>
+    </button>
+  </div>
 </div>
