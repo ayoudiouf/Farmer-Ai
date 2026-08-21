@@ -26,12 +26,13 @@ public class AuthController {
 
     @PostMapping("/register")
     public ResponseEntity<?> register(@Valid @RequestBody RegisterRequest req) {
-        if (userRepository.existsByTelephone(req.telephone())) {
+        String telephone = normaliserTelephone(req.telephone());
+        if (userRepository.existsByTelephone(telephone)) {
             return ResponseEntity.status(HttpStatus.CONFLICT)
                     .body(new ErreurAuth("TELEPHONE_EXISTANT", "Ce numéro est déjà enregistré."));
         }
         User user = User.builder()
-                .telephone(req.telephone())
+                .telephone(telephone)
                 .nomComplet(req.nomComplet())
                 .region(req.region())
                 .langue(req.langue() != null ? User.LangueLocale.valueOf(req.langue()) : User.LangueLocale.FRANCAIS)
@@ -46,7 +47,7 @@ public class AuthController {
 
     @PostMapping("/forgot-password")
 public ResponseEntity<?> forgotPassword(@Valid @RequestBody ForgotPasswordRequest req) {
-    User user = userRepository.findByTelephone(req.telephone()).orElse(null);
+    User user = userRepository.findByTelephone(normaliserTelephone(req.telephone())).orElse(null);
 
     if (user == null) {
         return ResponseEntity.status(404)
@@ -77,7 +78,7 @@ private String generatePassword() {
 
     @PostMapping("/login")
     public ResponseEntity<?> login(@Valid @RequestBody LoginRequest req) {
-        User user = userRepository.findByTelephone(req.telephone())
+        User user = userRepository.findByTelephone(normaliserTelephone(req.telephone()))
                 .orElse(null);
 
         if (user == null || !passwordEncoder.matches(req.motDePasse(), user.getMotDePasseHash())) {
@@ -89,4 +90,17 @@ private String generatePassword() {
     }
 
     record ErreurAuth(String code, String message) {}
+
+    static String normaliserTelephone(String telephone) {
+        if (telephone == null) return null;
+        String t = telephone.replaceAll("[\\s.\\-()]", "").trim();
+        if (t.startsWith("+221")) {
+            t = t.substring(4);
+        } else if (t.startsWith("00221")) {
+            t = t.substring(5);
+        } else if (t.startsWith("221") && t.length() == 12) {
+            t = t.substring(3);
+        }
+        return t;
+    }
 }
