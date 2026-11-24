@@ -21,6 +21,8 @@ export class RegisterComponent {
   langueChoisie: Langue = 'FRANCAIS';
   erreur = '';
   chargement = false;
+  afficherMotDePasse = false;
+  vueEnSavoirPlus = false;
 
   afficherPopupTelephoneExistant = false;
 
@@ -29,6 +31,14 @@ export class RegisterComponent {
     private router: Router,
     public langueService: LangueService
   ) {}
+
+  toggleAfficherMotDePasse(): void {
+    this.afficherMotDePasse = !this.afficherMotDePasse;
+  }
+
+  basculerEnSavoirPlus(actif: boolean): void {
+    this.vueEnSavoirPlus = actif;
+  }
 
   onSubmit(): void {
     this.erreur = '';

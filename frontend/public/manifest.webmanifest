@@ -1,0 +1,25 @@
+{
+  "name": "FarmerAI — Assistant Agricole Intelligent",
+  "short_name": "FarmerAI",
+  "description": "Diagnostic de maladies par photo et conseils agronomiques par IA pour les producteurs agricoles.",
+  "start_url": "/",
+  "display": "standalone",
+  "orientation": "portrait",
+  "theme_color": "#4a7c4e",
+  "background_color": "#f4f9f2",
+  "lang": "fr",
+  "icons": [
+    {
+      "src": "/image/logo-farmerai.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "/image/logo-farmerai.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ]
+}

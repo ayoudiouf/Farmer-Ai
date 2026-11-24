@@ -1,31 +1,160 @@
-﻿<div class="login-page">
-  <div class="login-card">
-    <app-langue-selector></app-langue-selector>
+﻿<div class="auth-page">
+  <div class="auth-container">
+    <div class="split-card">
+      <!-- Panneau gauche (Sombre forêt) -->
+      <div class="pane-dark">
+        <div class="pane-dark-top">
+          <app-langue-selector></app-langue-selector>
+        </div>
 
-    <img src="/image/logo-farmerai.png" alt="FarmerAI" class="login-logo" />
+        <!-- VUE 1 : Formulaire de connexion -->
+        <ng-container *ngIf="!vueEnSavoirPlus">
+          <h1 class="auth-title">Connexion</h1>
 
-    <h1>{{ langueService.t('connexion_titre') }}</h1>
-    <form (ngSubmit)="onSubmit()">
-      <label>
-        {{ langueService.t('telephone') }}
-        <input type="tel" name="telephone" [(ngModel)]="telephone" required />
-      </label>
-      <label>
-        {{ langueService.t('mot_de_passe') }}
-        <input type="password" name="motDePasse" [(ngModel)]="motDePasse" required />
-      </label>
-      <p class="erreur" *ngIf="erreur">{{ erreur }}</p>
-      <button type="submit">{{ langueService.t('se_connecter') }}</button>
-      <p class="lien-secondaire">
-  <a routerLink="/forgot-password">Mot de passe oublié ?</a>
-</p>
-    </form>
-    <p class="lien-secondaire">
-      {{ langueService.t('pas_de_compte') }}
-      <a routerLink="/register">{{ langueService.t('creer_compte') }}</a>
-    </p>
-    <p class="lien-secondaire">
-      <a routerLink="/accueil">← Découvrir l'application</a>
-    </p>
+          <form (ngSubmit)="onSubmit()" class="auth-form">
+            <div class="form-group">
+              <label for="telephone" class="form-label">{{ langueService.t('telephone') }}</label>
+              <input
+                type="tel"
+                id="telephone"
+                name="telephone"
+                [(ngModel)]="telephone"
+                placeholder="Numéro de téléphone ou Login"
+                required
+                autocomplete="username"
+                class="input-field"
+              />
+            </div>
+
+            <div class="form-group">
+              <label for="motDePasse" class="form-label">{{ langueService.t('mot_de_passe') }}</label>
+              <div class="password-wrapper">
+                <input
+                  [type]="afficherMotDePasse ? 'text' : 'password'"
+                  id="motDePasse"
+                  name="motDePasse"
+                  [(ngModel)]="motDePasse"
+                  placeholder="Mot de passe"
+                  required
+                  autocomplete="current-password"
+                  class="input-field input-password"
+                />
+                <button
+                  type="button"
+                  class="btn-toggle-eye"
+                  (click)="toggleAfficherMotDePasse()"
+                  [attr.aria-label]="afficherMotDePasse ? 'Masquer le mot de passe' : 'Afficher le mot de passe'"
+                >
+                  <svg *ngIf="!afficherMotDePasse" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
+                    <circle cx="12" cy="12" r="3"></circle>
+                  </svg>
+                  <svg *ngIf="afficherMotDePasse" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19m-6.72-1.07a3 3 0 1 1-4.24-4.24"></path>
+                    <line x1="1" y1="1" x2="23" y2="23"></line>
+                  </svg>
+                </button>
+              </div>
+              <div class="forgot-wrapper">
+                <a routerLink="/forgot-password" class="link-forgot">Mot de passe oublié ?</a>
+              </div>
+            </div>
+
+            <div class="erreur-box" *ngIf="erreur">
+              {{ erreur }}
+            </div>
+
+            <button type="submit" class="btn-primary-green">
+              {{ langueService.t('se_connecter') }}
+            </button>
+          </form>
+        </ng-container>
+
+        <!-- VUE 2 : Description du projet FarmerAI & Son But -->
+        <ng-container *ngIf="vueEnSavoirPlus">
+          <div class="about-container">
+            <h1 class="auth-title">À propos de FarmerAI</h1>
+            <p class="about-tagline">
+              L'intelligence artificielle au service des producteurs agricoles d'Afrique de l'Ouest.
+            </p>
+
+            <div class="about-highlights">
+              <div class="highlight-item">
+                <span class="highlight-icon">🌱</span>
+                <div>
+                  <strong>Diagnostic IA instantané :</strong>
+                  <p>Détectez immédiatement les maladies foliaires grâce à une simple photo de feuille.</p>
+                </div>
+              </div>
+
+              <div class="highlight-item">
+                <span class="highlight-icon">💡</span>
+                <div>
+                  <strong>Conseils agronomiques (RAG) :</strong>
+                  <p>Recommandations fiables et certifiées basées sur le corpus scientifique INERA / FAO.</p>
+                </div>
+              </div>
+
+              <div class="highlight-item">
+                <span class="highlight-icon">🌍</span>
+                <div>
+                  <strong>Inclusion numérique multicanal :</strong>
+                  <p>Accessible en langues locales (Français, Wolof, Diola, Sérère) et par USSD (*123#) sans internet.</p>
+                </div>
+              </div>
+            </div>
+
+            <button type="button" class="btn-primary-green" (click)="basculerEnSavoirPlus(false)">
+              ← Retour à la connexion
+            </button>
+          </div>
+        </ng-container>
+      </div>
+
+      <!-- Panneau droit (Clair branding) -->
+      <div class="pane-light">
+        <a routerLink="/accueil" class="brand-badge-link" title="Retour à l'accueil">
+          <div class="brand-badge">
+            <div class="brand-logo-content">
+              <img src="/image/logo-farmerai.png" alt="FarmerAI" class="brand-logo-img" />
+            </div>
+          </div>
+        </a>
+
+        <h2 class="brand-title"><a routerLink="/accueil" class="brand-title-link">FarmerAI</a></h2>
+        <p class="brand-subtitle">Agriculture & IA</p>
+
+        <div class="brand-actions">
+          <!-- Si en vue normale : bouton En savoir plus, sinon bouton Se connecter -->
+          <button
+            type="button"
+            *ngIf="!vueEnSavoirPlus"
+            class="btn-outline-pill"
+            (click)="basculerEnSavoirPlus(true)"
+          >
+            En savoir plus
+          </button>
+
+          <button
+            type="button"
+            *ngIf="vueEnSavoirPlus"
+            class="btn-outline-pill"
+            (click)="basculerEnSavoirPlus(false)"
+          >
+            Se connecter
+          </button>
+
+          <div class="secondary-nav-hint">
+            <span>{{ langueService.t('pas_de_compte') }}</span>
+            <a routerLink="/register" class="link-register">{{ langueService.t('creer_compte') }}</a>
+          </div>
+        </div>
+      </div>
+    </div>
   </div>
+
+  <!-- Footer sombre -->
+  <footer class="auth-footer">
+    <p>Design by FarmerAI - Copyright &copy; 2026.</p>
+  </footer>
 </div>

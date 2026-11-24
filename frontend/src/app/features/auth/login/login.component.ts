@@ -17,12 +17,22 @@ export class LoginComponent {
   telephone = '';
   motDePasse = '';
   erreur = '';
+  afficherMotDePasse = false;
+  vueEnSavoirPlus = false;
 
   constructor(
     private authService: AuthService,
     private router: Router,
     public langueService: LangueService
   ) {}
+
+  toggleAfficherMotDePasse(): void {
+    this.afficherMotDePasse = !this.afficherMotDePasse;
+  }
+
+  basculerEnSavoirPlus(actif: boolean): void {
+    this.vueEnSavoirPlus = actif;
+  }
 
   onSubmit(): void {
     this.erreur = '';
